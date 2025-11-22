@@ -44,6 +44,7 @@
             text-decoration: none;
         }
     </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -63,6 +64,7 @@
 
     <div class="section">
         <h2>About Me</h2>
+         <button class="play-btn" onclick="openPong()">PLAY RETRO PONG</button>
         <p>
             I'm currently learning Information Science and enjoy exploring how computers, networks,
             and security systems work. I love solving problems, creating small projects, and learning
@@ -86,6 +88,29 @@
     </div>
 
 </div>
+    <div id="pongModal" class="pong-modal">
+  <div class="pong-window">
+
+    <button class="close-btn" onclick="closePong()">✖</button>
+
+    <h2 class="pong-title">RETRO PONG</h2>
+
+    <canvas id="pongCanvas" width="600" height="350"></canvas>
+
+    <div class="pong-controls">
+      <button onclick="startPong()">START</button>
+      <button onclick="pausePong()">PAUSE</button>
+      <button onclick="resetPong()">RESET</button>
+    </div>
+
+    <div class="pong-score">
+      Player: <span id="playerScore">0</span> |
+      CPU: <span id="cpuScore">0</span>
+    </div>
+
+  </div>
+</div>
+    <script src="script.js"></script>
 
 </body>
 </html>
