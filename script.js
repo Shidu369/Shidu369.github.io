@@ -125,35 +125,37 @@ function resetPong() {
 }
 
 
-// Open & close modal
+// Open & close password modal
 function openPrivate() {
   document.getElementById("privateModal").style.display = "flex";
 }
+
 function closePrivate() {
   document.getElementById("privateModal").style.display = "none";
   document.getElementById("privError").textContent = "";
+  document.getElementById("privPass").value = "";
 }
 
 // Password system
-const PRIVATE_PASSWORD = "shidu123"; // <-- CHANGE THIS PASSWORD
+const PRIVATE_PASSWORD = "shidu123"; // <-- change this
 
 function checkPrivate() {
-  let val = document.getElementById("privPass").value;
+  let entered = document.getElementById("privPass").value;
 
-  if (val === PRIVATE_PASSWORD) {
-    document.getElementById("privModal").style.display = "none";
-    document.getElementById("privateModal").style.display = "none";
-    document.getElementById("privateContent").style.display = "block";
+  if (entered === PRIVATE_PASSWORD) {
+
+      // hide modal
+      document.getElementById("privateModal").style.display = "none";
+
+      // show hidden section
+      document.getElementById("privateContent").style.display = "block";
+
   } else {
-    let error = document.getElementById("privError");
-    error.textContent = "Incorrect password!";
-    error.style.animation = "shake 0.3s";
-    setTimeout(() => error.style.animation = "", 300);
+      // show error + shake
+      let error = document.getElementById("privError");
+      error.textContent = "Incorrect password!";
+      error.style.animation = "shake 0.3s";
+
+      setTimeout(() => (error.style.animation = ""), 300);
   }
 }
-
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "w") player.y -= 20;
-  if (e.key === "s") player.y += 20;
-});
