@@ -213,3 +213,98 @@ h1 {
   font-family: monospace;
   color: #00ffee;
 }
+
+
+
+/* Open Private Button */
+.private-btn {
+  padding: 10px 20px;
+  background: transparent;
+  border: 2px solid #ff00aa;
+  color: #ff00aa;
+  font-family: monospace;
+  cursor: pointer;
+  margin-top: 10px;
+  text-shadow: 0 0 5px #ff00aa;
+}
+.private-btn:hover {
+  box-shadow: 0 0 12px #ff00aa;
+}
+
+/* Private modal */
+.priv-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.priv-window {
+  background: #15001a;
+  border: 2px solid #ff00aa;
+  padding: 20px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 0 15px #ff00aa;
+  border-radius: 10px;
+  animation: fadeIn 0.4s;
+}
+
+.priv-title {
+  color: #ff00aa;
+  margin-bottom: 10px;
+  text-shadow: 0 0 8px #ff00aa;
+}
+
+.priv-input {
+  margin-top: 10px;
+  padding: 8px;
+  width: 80%;
+  background: black;
+  border: 2px solid #ff00aa;
+  color: #ff00aa;
+  font-family: monospace;
+  text-align: center;
+}
+
+.priv-submit {
+  margin-top: 10px;
+  padding: 8px 15px;
+  background: transparent;
+  border: 2px solid #ff00aa;
+  color: #ff00aa;
+  font-family: monospace;
+  cursor: pointer;
+}
+.priv-submit:hover {
+  background: #300030;
+}
+
+.priv-error {
+  color: #ff0044;
+  margin-top: 10px;
+  height: 20px;
+}
+
+/* hidden private content */
+.private-section {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  border: 2px solid #ff00aa;
+  box-shadow: 0 0 15px #ff00aa;
+  border-radius: 10px;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+  100% { transform: translateX(0); }
+}
+
