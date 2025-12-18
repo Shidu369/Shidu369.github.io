@@ -103,7 +103,7 @@ a:hover {
 h1 {
     position: relative;
     font-size: 28px;
-    animation: glitch 1s infinite;
+    animation: glitch 2s infinite;
 }
 
 @keyframes glitch {
