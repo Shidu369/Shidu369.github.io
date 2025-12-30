@@ -44,6 +44,63 @@ body::before {
     border-radius: 10px;
     box-shadow: 0 0 15px #00ff88, 0 0 30px #006644 inset;
     animation: neon-pulse 3s infinite;
+    
+    <h2>Desktop</h2>
+
+<div class="desktop">
+  <div class="icon" onclick="openWindow('aboutWin')">📄<br>About</div>
+  <div class="icon" onclick="openWindow('skillsWin')">🧠<br>Skills</div>
+  <div class="icon" onclick="openWindow('projectsWin')">📁<br>Projects</div>
+  <div class="icon" onclick="openPong()">🎮<br>Pong</div>
+</div>
+
+<!-- WINDOWS -->
+<div id="aboutWin" class="window">
+  <div class="title-bar">
+    About.txt
+    <span onclick="closeWindow('aboutWin')">✖</span>
+  </div>
+  <div class="window-body">
+    Hi, I'm Shridhar. I love cybersecurity, games, and retro tech.
+  </div>
+</div>
+
+<div id="skillsWin" class="window">
+  <div class="title-bar">
+    Skills.exe
+    <span onclick="closeWindow('skillsWin')">✖</span>
+  </div>
+  <div class="window-body">
+    <!-- skills will go here -->
+    <div class="skill">
+      <span>C Programming</span>
+      <div class="bar"><div class="fill c"></div></div>
+    </div>
+
+    <div class="skill">
+      <span>Cybersecurity</span>
+      <div class="bar"><div class="fill cyber"></div></div>
+    </div>
+
+    <div class="skill">
+      <span>JavaScript</span>
+      <div class="bar"><div class="fill js"></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="projectsWin" class="window">
+  <div class="title-bar">
+    Projects/
+    <span onclick="closeWindow('projectsWin')">✖</span>
+  </div>
+  <div class="window-body">
+    🔐 Encryption Tool (C)<br>
+    🎮 Mini Games<br>
+    🌐 Retro Portfolio
+  </div>
+</div>
+
 }
 
 @keyframes neon-pulse {
