@@ -307,4 +307,76 @@ h1 {
   80% { transform: translateX(6px); }
   100% { transform: translateX(0); }
 }
+.skill {
+  margin-bottom: 12px;
+}
+
+.bar {
+  background: #111;
+  border: 1px solid #00ff88;
+  height: 18px;
+  margin-top: 4px;
+}
+
+.fill {
+  height: 100%;
+  width: 0;
+  animation: load 1.5s forwards;
+}
+
+.fill.c { width: 85%; background: #00ff88; }
+.fill.cyber { width: 75%; background: #00ffaa; }
+.fill.js { width: 65%; background: #00ccff; }
+
+@keyframes load {
+  from { width: 0; }
+}
+/* DESKTOP */
+.desktop {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.icon {
+  width: 80px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid #00ff88;
+  padding: 10px;
+  box-shadow: 0 0 8px #00ff88;
+}
+.icon:hover {
+  background: #00ff88;
+  color: black;
+}
+
+/* WINDOWS */
+.window {
+  display: none;
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  background: #050505;
+  border: 2px solid #00ff88;
+  box-shadow: 0 0 15px #00ff88;
+  z-index: 9000;
+}
+
+.title-bar {
+  background: #003322;
+  padding: 5px 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  cursor: move;
+}
+
+.window-body {
+  padding: 15px;
+  font-size: 14px;
+}
+
 
