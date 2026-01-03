@@ -2,201 +2,96 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shridhar | Portfolio</title>
-    <style>
-        body {
-            background: #111;
-            color: #00ff88;
-            font-family: "Courier New", monospace;
-            margin: 0;
-            padding: 20px;
-            text-shadow: 0 0 5px #00ff88;
-        }
-
-        h1, h2 {
-            color: #00ffcc;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border: 1px solid #00ff88;
-            border-radius: 8px;
-            box-shadow: 0 0 10px #00ff88;
-            <h2>Desktop</h2>
-
-<div class="desktop">
-  <div class="icon" onclick="openWindow('aboutWin')">📄<br>About</div>
-  <div class="icon" onclick="openWindow('skillsWin')">🧠<br>Skills</div>
-  <div class="icon" onclick="openWindow('projectsWin')">📁<br>Projects</div>
-  <div class="icon" onclick="openPong()">🎮<br>Pong</div>
-</div>
-
-<!-- WINDOWS -->
-<div id="aboutWin" class="window">
-  <div class="title-bar">
-    About.txt
-    <span onclick="closeWindow('aboutWin')">✖</span>
-  </div>
-  <div class="window-body">
-    Hi, I'm Shridhar. I love cybersecurity, games, and retro tech.
-  </div>
-</div>
-
-<div id="skillsWin" class="window">
-  <div class="title-bar">
-    Skills.exe
-    <span onclick="closeWindow('skillsWin')">✖</span>
-  </div>
-  <div class="window-body">
-    <!-- skills will go here -->
-    <div class="skill">
-      <span>C Programming</span>
-      <div class="bar"><div class="fill c"></div></div>
-    </div>
-
-    <div class="skill">
-      <span>Cybersecurity</span>
-      <div class="bar"><div class="fill cyber"></div></div>
-    </div>
-
-    <div class="skill">
-      <span>JavaScript</span>
-      <div class="bar"><div class="fill js"></div></div>
-    </div>
-  </div>
-</div>
-
-<div id="projectsWin" class="window">
-  <div class="title-bar">
-    Projects/
-    <span onclick="closeWindow('projectsWin')">✖</span>
-  </div>
-  <div class="window-body">
-    🔐 Encryption Tool (C)<br>
-    🎮 Mini Games<br>
-    🌐 Retro Portfolio
-  </div>
-</div>
-
-        }
-
-        .section {
-            margin-bottom: 30px;
-        }
-
-        .tag {
-            display: inline-block;
-            margin: 5px;
-            padding: 5px 10px;
-            border: 1px solid #00ff88;
-            border-radius: 5px;
-        }
-
-        a {
-            color: #00ffcc;
-            text-decoration: none;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetroOS Portfolio</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="container">
+    <audio id="startup-sound" src="startup.mp3"></audio>
 
-    <h1>Hi, I'm Shridhar 👋</h1>
-    <p>I'm an Information Science student at <strong>SDM Dharwad</strong>, passionate about:</p>
-
-    <div>
-        <span class="tag">Cybersecurity</span>
-        <span class="tag">Video Games</span>
-        <span class="tag">Technology</span>
-        <span class="tag">Programming</span>
-        <span class="tag">Series & Movies</span>
-        <button class="private-btn" onclick="openPrivate()">ENTER PRIVATE SECTION</button>
-
+    <div id="boot-screen">
+        <div class="boot-content">
+            <p>RETRO-BIOS (C) 2025 Portfolio Systems Inc.</p>
+            <p>BIOS Date: 12/31/99 11:59:59 Ver: 1.0.0</p>
+            <p>CPU: Intel 486 DX2 66MHz</p>
+            <p>Memory Test: 640K OK</p>
+            <br>
+            <p>Detecting Primary Master ... Maxtor 540MB</p>
+            <p>Detecting Primary Slave ... None</p>
+            <br>
+            <button class="boot-btn" onclick="bootSystem()">[ CLICK TO BOOT SYSTEM ]</button>
+        </div>
     </div>
 
-    <div class="section">
-        <h2>About Me</h2>
-         <button class="play-btn" onclick="openPong()">PLAY RETRO PONG</button>
-        <p>
-            I'm currently learning Information Science and enjoy exploring how computers, networks,
-            and security systems work. I love solving problems, creating small projects, and learning
-            new things every day. I'm also a huge fan of video games and binge-worthy series!
-        </p>
-    </div>
-
-    <div class="section">
-        <h2>Projects (Sample)</h2>
-        <ul>
-            <li>🔐 Basic Encryption Program (C Language)</li>
-            <li>🎮 Simple Game using Python</li>
-            <li>🌐 Retro Portfolio Website</li>
+    <div id="bsod" onclick="reboot()">
+        <p class="bsod-title">Windows</p>
+        <p>A fatal exception 0E has occurred at 0028:C0011E36 in VXD VMM(01) + 00010E36. The current application will be terminated.</p>
+        <br>
+        <ul class="bsod-list">
+            <li>* Press any key to terminate the current application.</li>
+            <li>* Press CTRL+ALT+DEL again to restart your computer. You will lose any unsaved information in all applications.</li>
         </ul>
+        <br>
+        <p style="text-align: center">Press any key to continue _</p>
     </div>
 
-    <div class="section">
-        <h2>Contact</h2>
-        <p>Email: <a href="mailto:yourmail@example.com">yourmail@example.com</a></p>
-        <p>GitHub: <a href="https://github.com/Shidu369" target="_blank">github.com/Shidu369</a></p>
+    <div class="desktop" id="main-desktop" style="display: none;">
+
+        <div class="icon-container">
+            <div class="icon" onclick="openWindow('about-window')">
+                <div class="icon-img">👤</div>
+                <div class="icon-label">About Me</div>
+            </div>
+            <div class="icon" onclick="openWindow('projects-window')">
+                <div class="icon-img">📁</div>
+                <div class="icon-label">Projects</div>
+            </div>
+            <div class="icon" onclick="openWindow('contact-window')">
+                <div class="icon-img">✉️</div>
+                <div class="icon-label">Contact</div>
+            </div>
+            <div class="icon" onclick="triggerBSOD()">
+                <div class="icon-img">⚠️</div>
+                <div class="icon-label">DANGER</div>
+            </div>
+        </div>
+
+        <div id="about-window" class="window draggable" style="display: none; top: 10%; left: 10%;">
+            <div class="title-bar">
+                <div class="title-bar-text">About Me.txt</div>
+                <div class="title-bar-controls"><button onclick="closeWindow('about-window')">X</button></div>
+            </div>
+            <div class="window-body"><p>Welcome to my retro portfolio!</p></div>
+        </div>
+
+        <div id="projects-window" class="window draggable" style="display: none; top: 15%; left: 30%;">
+            <div class="title-bar">
+                <div class="title-bar-text">C:\Projects</div>
+                <div class="title-bar-controls"><button onclick="closeWindow('projects-window')">X</button></div>
+            </div>
+            <div class="window-body">
+                <ul><li>Project Alpha</li><li>Project Beta</li></ul>
+            </div>
+        </div>
+
+        <div id="contact-window" class="window draggable" style="display: none; top: 20%; left: 20%;">
+            <div class="title-bar">
+                <div class="title-bar-text">Contact Info</div>
+                <div class="title-bar-controls"><button onclick="closeWindow('contact-window')">X</button></div>
+            </div>
+            <div class="window-body"><p>Email: dev@retro.com</p></div>
+        </div>
+
     </div>
 
-</div>
-    <div id="pongModal" class="pong-modal">
-  <div class="pong-window">
-
-    <button class="close-btn" onclick="closePong()">✖</button>
-
-    <h2 class="pong-title">RETRO PONG</h2>
-
-    <canvas id="pongCanvas" width="600" height="350"></canvas>
-
-    <div class="pong-controls">
-      <button onclick="startPong()">START</button>
-      <button onclick="pausePong()">PAUSE</button>
-      <button onclick="resetPong()">RESET</button>
+    <div class="taskbar" id="taskbar" style="display: none;">
+        <button class="start-btn"><span class="logo">🏁</span> Start</button>
+        <div class="taskbar-divider"></div>
+        <div class="clock" id="clock">12:00 PM</div>
     </div>
 
-    <div class="pong-score">
-      Player: <span id="playerScore">0</span> |
-      CPU: <span id="cpuScore">0</span>
-    </div>
-
-  </div>
-        
-</div>
     <script src="script.js"></script>
-
-    <div id="privateModal" class="priv-modal">
-  <div class="priv-window">
-
-    <button class="close-btn" onclick="closePrivate()">✖</button>
-
-    <h2 class="priv-title">Restricted Area</h2>
-    <p>Enter Password:</p>
-
-    <input type="password" id="privPass" class="priv-input" placeholder="Password">
-
-    <div>
-      <button class="priv-submit" onclick="checkPrivate()">ENTER</button>
-    </div>
-
-    <p id="privError" class="priv-error"></p>
-
-  </div>
-</div>
-
-<!-- PRIVATE CONTENT (HIDDEN) -->
-<div id="privateContent" class="private-section">
-  <h2>🔒 PRIVATE SECTION</h2>
-  <p>Welcome, authorized user!</p>
-  <p>(sshh)</p>
-    
-</div>
 
 </body>
 </html>

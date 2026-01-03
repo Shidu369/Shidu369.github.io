@@ -1,169 +1,131 @@
-// -------- Modal Controls --------
-function openPong() {
-  document.getElementById("pongModal").style.display = "flex";
-  drawScene();
-}
-function closePong() {
-  document.getElementById("pongModal").style.display = "none";
-  pausePong();
-}
-
-// -------- PONG GAME ENGINE --------
-
-// Canvas
-const canvas = document.getElementById("pongCanvas");
-const ctx = canvas.getContext("2d");
-
-let running = false;
-let playerScore = 0;
-let cpuScore = 0;
-
-const paddle = {
-  width: 10,
-  height: 70,
-};
-
-let player = { x: 20, y: canvas.height/2 - 35 };
-let cpu = { x: canvas.width - 30, y: canvas.height/2 - 35 };
-
-let ball = {
-  x: canvas.width/2,
-  y: canvas.height/2,
-  size: 8,
-  vx: 4,
-  vy: 2,
-};
-
-function drawScene() {
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  // net
-  ctx.fillStyle = "white";
-  for (let y = 0; y < canvas.height; y += 20) {
-    ctx.fillRect(canvas.width/2 - 2, y, 4, 10);
-  }
-
-  // paddles
-  ctx.fillRect(player.x, player.y, paddle.width, paddle.height);
-  ctx.fillRect(cpu.x, cpu.y, paddle.width, paddle.height);
-
-  // ball
-  ctx.beginPath();
-  ctx.arc(ball.x, ball.y, ball.size, 0, Math.PI * 2);
-  ctx.fill();
+// 1. Clock Functionality
+function updateClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    
+    const timeString = `${hours}:${minutes} ${ampm}`;
+    document.getElementById('clock').textContent = timeString;
 }
 
-function update() {
-  if (!running) return;
+setInterval(updateClock, 1000);
+updateClock();
 
-  ball.x += ball.vx;
-  ball.y += ball.vy;
+// 2. Window Management (Open/Close/Z-Index)
+let zIndexCounter = 10;
 
-  if (ball.y < 0 || ball.y > canvas.height) ball.vy *= -1;
-
-  if (
-    ball.x < player.x + paddle.width &&
-    ball.y > player.y &&
-    ball.y < player.y + paddle.height
-  ) {
-    ball.vx *= -1;
-  }
-
-  if (
-    ball.x > cpu.x &&
-    ball.y > cpu.y &&
-    ball.y < cpu.y + paddle.height
-  ) {
-    ball.vx *= -1;
-  }
-
-  if (ball.x < 0) {
-    cpuScore++;
-    document.getElementById("cpuScore").textContent = cpuScore;
-    resetBall();
-  }
-
-  if (ball.x > canvas.width) {
-    playerScore++;
-    document.getElementById("playerScore").textContent = playerScore;
-    resetBall();
-  }
-
-  cpu.y += (ball.y - (cpu.y + paddle.height/2)) * 0.05;
-
-  drawScene();
-  requestAnimationFrame(update);
-}
-
-function resetBall() {
-  ball.x = canvas.width/2;
-  ball.y = canvas.height/2;
-  ball.vx *= -1;
-  ball.vy = (Math.random() - 0.5) * 6;
-}
-
-function startPong() {
-  if (!running) {
-    running = true;
-    update();
-  }
-}
-
-function pausePong() {
-  running = false;
-}
-
-function resetPong() {
-  running = false;
-  playerScore = 0;
-  cpuScore = 0;
-  document.getElementById("playerScore").textContent = 0;
-  document.getElementById("cpuScore").textContent = 0;
-  resetBall();
-  drawScene();
-}
-
-
-// Open & close password modal
-function openPrivate() {
-  document.getElementById("privateModal").style.display = "flex";
-}
-
-function closePrivate() {
-  document.getElementById("privateModal").style.display = "none";
-  document.getElementById("privError").textContent = "";
-  document.getElementById("privPass").value = "";
-}
-
-// Password system
-const PRIVATE_PASSWORD = "shidu123"; // <-- change this
-
-function checkPrivate() {
-  let entered = document.getElementById("privPass").value;
-
-  if (entered === PRIVATE_PASSWORD) {
-
-      // hide modal
-      document.getElementById("privateModal").style.display = "none";
-
-      // show hidden section
-      document.getElementById("privateContent").style.display = "block";
-
-  } else {
-      // show error + shake
-      let error = document.getElementById("privError");
-      error.textContent = "Incorrect password!";
-      error.style.animation = "shake 0.3s";
-
-      setTimeout(() => (error.style.animation = ""), 300);
-  }
-}
 function openWindow(id) {
-  document.getElementById(id).style.display = "block";
+    const win = document.getElementById(id);
+    win.style.display = 'flex';
+    bringToFront(win);
 }
 
 function closeWindow(id) {
-  document.getElementById(id).style.display = "none";
+    document.getElementById(id).style.display = 'none';
 }
 
+function bringToFront(element) {
+    zIndexCounter++;
+    element.style.zIndex = zIndexCounter;
+}
+
+// Add click event to all windows to bring them to front when clicked
+document.querySelectorAll('.window').forEach(win => {
+    win.addEventListener('mousedown', () => {
+        bringToFront(win);
+    });
+});
+
+// 3. Draggable Windows Logic
+function makeDraggable(element) {
+    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    // The header is the handle for dragging
+    const header = element.querySelector('.title-bar');
+
+    if (header) {
+        header.onmousedown = dragMouseDown;
+    }
+
+    function dragMouseDown(e) {
+        e.preventDefault();
+        // Get the mouse cursor position at startup
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+        
+        // Bring window to front when dragging starts
+        bringToFront(element);
+    }
+
+    function elementDrag(e) {
+        e.preventDefault();
+        // Calculate the new cursor position
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        
+        // Set the element's new position
+        element.style.top = (element.offsetTop - pos2) + "px";
+        element.style.left = (element.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+        // Stop moving when mouse button is released
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
+}
+
+// Initialize drag for all windows
+document.querySelectorAll('.window').forEach(win => {
+    makeDraggable(win);
+});
+/* --- EXISTING CODE ABOVE (Clock, Drag, Open/Close) --- */
+
+// --- NEW FUNCTIONS ---
+
+// 1. Boot System Logic
+function bootSystem() {
+    // Hide the BIOS screen
+    const bootScreen = document.getElementById('boot-screen');
+    bootScreen.style.display = 'none';
+
+    // Show Desktop and Taskbar
+    document.getElementById('main-desktop').style.display = 'block';
+    document.getElementById('taskbar').style.display = 'flex';
+
+    // Play Sound
+    const audio = document.getElementById('startup-sound');
+    // We try/catch because some browsers are very strict about audio
+    try {
+        audio.play();
+    } catch (err) {
+        console.log("Audio autoplay blocked or file missing");
+    }
+}
+
+// 2. BSOD Logic
+function triggerBSOD() {
+    document.getElementById('bsod').style.display = 'block';
+}
+
+function reboot() {
+    // Simply reload the page to simulate a reboot
+    location.reload();
+}
+
+// Optional: specific key press to reboot
+document.addEventListener('keydown', function(event) {
+    const bsod = document.getElementById('bsod');
+    // If BSOD is visible, any key reloads
+    if (bsod.style.display === 'block') {
+        location.reload();
+    }
+});
