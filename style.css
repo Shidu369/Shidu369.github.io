@@ -276,9 +276,14 @@ body {
 
 /* Game Styles */
 #target-btn {
+    position: absolute; /* REQUIRED for the button to move */
     background: #ff0000;
     color: white;
     font-weight: bold;
+    border: 2px outset white;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 100;
 }
 /* Shake animation for when Clippy is clicked */
 .shake {

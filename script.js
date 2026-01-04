@@ -147,60 +147,82 @@ function rotateClippyText() {
 // Change Clippy's text every 10 seconds
 setInterval(rotateClippyText, 10000);
 
-// --- EASY GAME LOGIC ---
+// --- UPDATED EASY GAME LOGIC ---
 let score = 0;
 let gameActive = false;
 let gameTimer;
 
 function startMalfunction() {
-    // 1. Open the game window automatically
     openWindow('game-window');
-    
-    // 2. Change Clippy's text to warn the user
     const clippyText = document.getElementById('clippy-text');
-    clippyText.textContent = "OH NO! You broke it! Quick, fix the errors before we crash!";
-    
-    // 3. Reset and Start the game
+    clippyText.textContent = "SYSTEM ERROR! Quick, catch the glitches before the blue screen!";
     startGame();
 }
 
 function startGame() {
     score = 0;
     gameActive = true;
-    document.getElementById('game-area').classList.add('malfunction-flash');
-    document.getElementById('game-status').textContent = "Clicks: 0/5";
-    document.getElementById('target-btn').style.display = 'block';
     
-    // Clear any old timers
+    const targetBtn = document.getElementById('target-btn');
+    const gameArea = document.getElementById('game-area');
+    const statusText = document.getElementById('game-status');
+
+    statusText.textContent = "Clicks: 0/5";
+    targetBtn.style.display = 'block';
+    gameArea.classList.add('malfunction-flash');
+
     clearTimeout(gameTimer);
     
-    // 4. Set a 10-second limit before BSOD
+    // 10 second countdown to BSOD
     gameTimer = setTimeout(() => {
         if (gameActive) {
-            triggerBSOD(); // Trigger the crash if not finished in time
+            triggerBSOD();
         }
     }, 10000); 
 
-    moveTarget();
+    moveTarget(); // Initial move
 }
 
+function moveTarget() {
+    if (!gameActive) return;
+    
+    const area = document.getElementById('game-area');
+    const btn = document.getElementById('target-btn');
+    
+    // Calculate random positions within the white box
+    // area.clientWidth/Height gives us the boundaries
+    const maxX = area.clientWidth - btn.offsetWidth;
+    const maxY = area.clientHeight - btn.offsetHeight;
+    
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+    
+    btn.style.left = randomX + "px";
+    btn.style.top = randomY + "px";
+}
+
+// Handle clicking the error button
 document.getElementById('target-btn').onclick = function() {
     if (!gameActive) return;
+    
     score++;
     document.getElementById('game-status').textContent = `Clicks: ${score}/5`;
     
     if (score >= 5) {
-        // SUCCESS
+        // WIN CONDITION
         gameActive = false;
-        clearTimeout(gameTimer); // Stop the crash timer
+        clearTimeout(gameTimer); 
         this.style.display = 'none';
-        document.getElementById('game-status').textContent = "SYSTEM STABILIZED!";
-        document.getElementById('clippy-text').textContent = "Phew! That was close.";
         document.getElementById('game-area').classList.remove('malfunction-flash');
+        document.getElementById('game-status').textContent = "SYSTEM STABILIZED!";
+        document.getElementById('clippy-text').textContent = "Phew! You saved the OS.";
     } else {
+        // Move it again for the next click
         moveTarget();
     }
 };
+
+
 function clippyClick() {
     const clippyContainer = document.querySelector('.clippy-container');
     const textElem = document.getElementById('clippy-text');
