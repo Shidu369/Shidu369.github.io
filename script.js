@@ -147,81 +147,6 @@ function rotateClippyText() {
 // Change Clippy's text every 10 seconds
 setInterval(rotateClippyText, 10000);
 
-// --- UPDATED EASY GAME LOGIC ---
-let score = 0;
-let gameActive = false;
-let gameTimer;
-
-function startMalfunction() {
-    openWindow('game-window');
-    const clippyText = document.getElementById('clippy-text');
-    clippyText.textContent = "SYSTEM ERROR! Quick, catch the glitches before the blue screen!";
-    startGame();
-}
-
-function startGame() {
-    score = 0;
-    gameActive = true;
-    
-    const targetBtn = document.getElementById('target-btn');
-    const gameArea = document.getElementById('game-area');
-    const statusText = document.getElementById('game-status');
-
-    statusText.textContent = "Clicks: 0/5";
-    targetBtn.style.display = 'block';
-    gameArea.classList.add('malfunction-flash');
-
-    clearTimeout(gameTimer);
-    
-    // 10 second countdown to BSOD
-    gameTimer = setTimeout(() => {
-        if (gameActive) {
-            triggerBSOD();
-        }
-    }, 10000); 
-
-    moveTarget(); // Initial move
-}
-
-function moveTarget() {
-    if (!gameActive) return;
-    
-    const area = document.getElementById('game-area');
-    const btn = document.getElementById('target-btn');
-    
-    // Calculate random positions within the white box
-    // area.clientWidth/Height gives us the boundaries
-    const maxX = area.clientWidth - btn.offsetWidth;
-    const maxY = area.clientHeight - btn.offsetHeight;
-    
-    const randomX = Math.floor(Math.random() * maxX);
-    const randomY = Math.floor(Math.random() * maxY);
-    
-    btn.style.left = randomX + "px";
-    btn.style.top = randomY + "px";
-}
-
-// Handle clicking the error button
-document.getElementById('target-btn').onclick = function() {
-    if (!gameActive) return;
-    
-    score++;
-    document.getElementById('game-status').textContent = `Clicks: ${score}/5`;
-    
-    if (score >= 5) {
-        // WIN CONDITION
-        gameActive = false;
-        clearTimeout(gameTimer); 
-        this.style.display = 'none';
-        document.getElementById('game-area').classList.remove('malfunction-flash');
-        document.getElementById('game-status').textContent = "SYSTEM STABILIZED!";
-        document.getElementById('clippy-text').textContent = "Phew! You saved the OS.";
-    } else {
-        // Move it again for the next click
-        moveTarget();
-    }
-};
-
 
 function clippyClick() {
     const clippyContainer = document.querySelector('.clippy-container');
@@ -246,3 +171,101 @@ function clippyClick() {
         clippyContainer.classList.remove('shake');
     }, 500);
 }
+
+// --- TERRIFYING MALFUNCTION LOGIC ---
+let score = 0;
+let gameActive = false;
+let integrity = 100;
+let integrityInterval;
+
+function startMalfunction() {
+    // 1. Instantly show the scary window
+    const gameWin = document.getElementById('game-window');
+    gameWin.style.display = 'flex';
+    bringToFront(gameWin);
+
+    // 2. Add global chaos (Shaking and Flashing)
+    document.body.classList.add('screen-glitch');
+    
+    // 3. Make Clippy Panic
+    const clippyText = document.getElementById('clippy-text');
+    clippyText.innerHTML = "<b style='color:red;'>FATAL ERROR: SYSTEM CORRUPTION DETECTED! HELP!!</b>";
+
+    // 4. Initialize Game State
+    score = 0;
+    integrity = 100;
+    gameActive = true;
+    
+    const targetBtn = document.getElementById('target-btn');
+    const statusText = document.getElementById('game-status');
+    const integrityBar = document.getElementById('integrity-bar');
+
+    targetBtn.style.display = 'block';
+    statusText.textContent = "GLITCHES CAUGHT: 0/5";
+    integrityBar.style.width = "100%";
+
+    // 5. Start the countdown (Integrity Drain)
+    // Drains 1% every 100ms = 10 seconds total
+    clearInterval(integrityInterval);
+    integrityInterval = setInterval(() => {
+        integrity -= 1; 
+        integrityBar.style.width = integrity + "%";
+        
+        // If integrity hits 0, the user failed
+        if (integrity <= 0) {
+            clearInterval(integrityInterval);
+            triggerBSOD(); // CRASH!
+        }
+    }, 100);
+
+    // 6. Start moving the target immediately
+    moveTarget();
+}
+
+// Function to move the error button to a random spot
+function moveTarget() {
+    if (!gameActive) return;
+    
+    const area = document.getElementById('game-area');
+    const btn = document.getElementById('target-btn');
+    
+    const maxX = area.clientWidth - btn.offsetWidth;
+    const maxY = area.clientHeight - btn.offsetHeight;
+    
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+    
+    btn.style.left = randomX + "px";
+    btn.style.top = randomY + "px";
+}
+
+document.getElementById('target-btn').onclick = function() {
+    if (!gameActive) return;
+    
+    score++;
+    document.getElementById('game-status').textContent = `GLITCHES CAUGHT: ${score}/5`;
+    
+    if (score >= 5) {
+        // --- SUCCESS CONDITION ---
+        gameActive = false;
+        clearInterval(integrityInterval);
+        
+        // 1. Stop the screen from shaking/flashing
+        document.body.classList.remove('screen-glitch');
+        
+        // 2. Hide the red button
+        this.style.display = 'none';
+        
+        // 3. Update Status
+        document.getElementById('game-status').textContent = "SYSTEM STABILIZED";
+        document.getElementById('clippy-text').textContent = "Phew... that was close!";
+
+        // 4. WAIT 1.5 SECONDS THEN HIDE THE WINDOW
+        setTimeout(() => {
+            document.getElementById('game-window').style.display = 'none';
+        }, 1500); // 1500ms = 1.5 seconds so the user can see they won
+
+    } else {
+        moveTarget();
+    }
+};

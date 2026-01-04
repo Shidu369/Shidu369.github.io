@@ -307,3 +307,37 @@ body {
     50% { background-color: #ffcccc; }
     100% { background-color: white; }
 }
+/* Blinking Text */
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Red Screen Flash */
+
+/* Less Intense Shake */
+@keyframes shake {
+    0% { transform: translate(0px, 0px) rotate(0deg); }
+    20% { transform: translate(-1px, 0.5px) rotate(-0.2deg); }
+    40% { transform: translate(1px, -0.5px) rotate(0.2deg); }
+    60% { transform: translate(-1px, -0.5px) rotate(0deg); }
+    80% { transform: translate(1px, 0.5px) rotate(0.1deg); }
+    100% { transform: translate(0px, 0px) rotate(0deg); }
+}
+
+/* Update the glitch speed if it feels too 'jittery' */
+.screen-glitch {
+    /* Changing 0.1s to 0.2s makes the shake slower/smoother */
+    animation: shake 0.2s infinite, flash-red 0.3s infinite !important;
+}
+
+@keyframes flash-red-heavy {
+    0% { background-color: #008080; } /* Original Teal */
+    50% { background-color: #4b0000; } /* Dark Red */
+}
+
+/* Integrity Bar Animation */
+#integrity-bar {
+    transition: width 0.1s linear;
+}
