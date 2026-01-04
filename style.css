@@ -235,6 +235,54 @@ body {
 .bsod-list li {
     margin-bottom: 15px;
 }
+.title-bar-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.title-bar-controls button {
+    width: 18px;
+    height: 16px;
+    font-size: 10px;
+    padding: 0;
+    cursor: pointer;
+    background-color: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+}
+/* Fix for text going outside windows */
+.window-body {
+    padding: 15px;
+    font-size: 14px;
+    color: black;
+    overflow-y: auto;    /* Adds scrollbar if content is too long */
+    overflow-x: hidden;  /* Prevents side-scrolling */
+    word-wrap: break-word; /* Forces long words to break */
+    max-height: 400px;   /* Limits height so it doesn't go off-screen */
+}
+
+/* Taskbar Tab Styling */
+.task-tab {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    padding: 2px 10px;
+    font-size: 12px;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.task-tab.active {
+    background: #e0e0e0;
+    border-color: #808080 #ffffff #ffffff #808080; /* Sunken look */
+    font-weight: bold;
+}
+
 /* Clippy Styling */
 .clippy-container {
     position: fixed;
@@ -340,4 +388,8 @@ body {
 /* Integrity Bar Animation */
 #integrity-bar {
     transition: width 0.1s linear;
+}
+body:has(#bsod[style*="display: block"]) {
+    animation: none !important;
+    transform: none !important;
 }

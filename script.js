@@ -22,10 +22,45 @@ function openWindow(id) {
     const win = document.getElementById(id);
     win.style.display = 'flex';
     bringToFront(win);
+    updateTaskbar();
 }
 
 function closeWindow(id) {
-    document.getElementById(id).style.display = 'none';
+    const win = document.getElementById(id);
+    win.style.display = 'none';
+    updateTaskbar();
+}
+
+function updateTaskbar() {
+    const tabsContainer = document.getElementById('taskbar-tabs');
+    tabsContainer.innerHTML = ''; // Clear current tabs
+
+    // Find all windows that are currently visible
+    const openWindows = document.querySelectorAll('.window');
+    
+    openWindows.forEach(win => {
+        if (win.style.display === 'flex' || win.style.display === 'block') {
+            const title = win.querySelector('.title-bar-text').textContent;
+            const tab = document.createElement('div');
+            tab.className = 'task-tab';
+            tab.textContent = title;
+            
+            // Clicking the tab brings the window to front
+            tab.onclick = () => bringToFront(win);
+            
+            tabsContainer.appendChild(tab);
+        }
+    });
+}
+
+// Add this line to your bringToFront function to highlight the tab
+function bringToFront(element) {
+    zIndexCounter++;
+    element.style.zIndex = zIndexCounter;
+    
+    // Optional: Refresh tabs to show which is active
+    document.querySelectorAll('.task-tab').forEach(t => t.classList.remove('active'));
+    updateTaskbar(); 
 }
 
 function bringToFront(element) {
