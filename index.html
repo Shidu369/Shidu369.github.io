@@ -36,7 +36,34 @@
         <p style="text-align: center">Press any key to continue _</p>
     </div>
 
-    <div class="desktop" id="main-desktop" style="display: none;">
+    <div id="clippy" class="clippy-container" onclick="clippyClick()">
+    <div class="clippy-balloon" id="clippy-text">
+        Hi! I'm Clippy. Need help exploring this portfolio?
+    </div>
+    <div class="clippy-avatar">📎</div>
+</div>
+
+<div id="game-window" class="window draggable" style="display: none; top: 20%; left: 35%; width: 250px;">
+    <div class="title-bar">
+        <div class="title-bar-text">System Fixer.exe</div>
+        <div class="title-bar-controls">
+            <button onclick="closeWindow('game-window')">X</button>
+        </div>
+    </div>
+    <div class="window-body" style="text-align: center;">
+        <p id="game-instructions"><strong>How to play:</strong> Click the "ERROR" button 5 times to fix the system before the time runs out!</p>
+        <hr>
+        <div id="game-area" style="height: 150px; position: relative; background: white; border: 2px inset gray;">
+            <button id="target-btn" class="retro-btn" style="position: absolute; display: none;">ERROR</button>
+            <p id="game-status" style="margin-top: 50px;">Ready?</p>
+        </div>
+        <button class="retro-btn" onclick="startGame()">START GAME</button>
+    </div>
+</div>
+<div class="icon" onclick="openWindow('game-window')">
+    <div class="icon-img">🎮</div>
+    <div class="icon-label">Fix System</div>
+</div>
 
         <div class="icon-container">
             <div class="icon" onclick="openWindow('about-window')">
@@ -51,10 +78,11 @@
                 <div class="icon-img">✉️</div>
                 <div class="icon-label">Contact</div>
             </div>
-            <div class="icon" onclick="triggerBSOD()">
-                <div class="icon-img">⚠️</div>
-                <div class="icon-label">DANGER</div>
-            </div>
+            
+            <div class="icon" onclick="startMalfunction()">
+    <div class="icon-img">⚠️</div>
+    <div class="icon-label">DANGER</div>
+</div>
         </div>
 
         <div id="about-window" class="window draggable" style="display: none; top: 10%; left: 10%;">

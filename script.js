@@ -129,3 +129,98 @@ document.addEventListener('keydown', function(event) {
         location.reload();
     }
 });
+// --- CLIPPY LOGIC ---
+const clippyLines = [
+    "It looks like you're trying to view a portfolio!",
+    "I can help you find the projects folder.",
+    "Did you know clicking the teal background does nothing?",
+    "Check out the 'Danger' icon... if you dare!",
+    "I'm here to stay, whether you like it or not!"
+];
+
+function rotateClippyText() {
+    const textElem = document.getElementById('clippy-text');
+    const randomLine = clippyLines[Math.floor(Math.random() * clippyLines.length)];
+    textElem.textContent = randomLine;
+}
+
+// Change Clippy's text every 10 seconds
+setInterval(rotateClippyText, 10000);
+
+// --- EASY GAME LOGIC ---
+let score = 0;
+let gameActive = false;
+let gameTimer;
+
+function startMalfunction() {
+    // 1. Open the game window automatically
+    openWindow('game-window');
+    
+    // 2. Change Clippy's text to warn the user
+    const clippyText = document.getElementById('clippy-text');
+    clippyText.textContent = "OH NO! You broke it! Quick, fix the errors before we crash!";
+    
+    // 3. Reset and Start the game
+    startGame();
+}
+
+function startGame() {
+    score = 0;
+    gameActive = true;
+    document.getElementById('game-area').classList.add('malfunction-flash');
+    document.getElementById('game-status').textContent = "Clicks: 0/5";
+    document.getElementById('target-btn').style.display = 'block';
+    
+    // Clear any old timers
+    clearTimeout(gameTimer);
+    
+    // 4. Set a 10-second limit before BSOD
+    gameTimer = setTimeout(() => {
+        if (gameActive) {
+            triggerBSOD(); // Trigger the crash if not finished in time
+        }
+    }, 10000); 
+
+    moveTarget();
+}
+
+document.getElementById('target-btn').onclick = function() {
+    if (!gameActive) return;
+    score++;
+    document.getElementById('game-status').textContent = `Clicks: ${score}/5`;
+    
+    if (score >= 5) {
+        // SUCCESS
+        gameActive = false;
+        clearTimeout(gameTimer); // Stop the crash timer
+        this.style.display = 'none';
+        document.getElementById('game-status').textContent = "SYSTEM STABILIZED!";
+        document.getElementById('clippy-text').textContent = "Phew! That was close.";
+        document.getElementById('game-area').classList.remove('malfunction-flash');
+    } else {
+        moveTarget();
+    }
+};
+function clippyClick() {
+    const clippyContainer = document.querySelector('.clippy-container');
+    const textElem = document.getElementById('clippy-text');
+    
+    // Add the shake class
+    clippyContainer.classList.add('shake');
+    
+    // Pick a "clicked" specific response
+    const clickResponses = [
+        "Hey! That tickles.",
+        "Stop clicking me and look at the Projects!",
+        "I'm made of metal, you know.",
+        "Can I help you write a letter?",
+        "Ouch! My paperclip head!"
+    ];
+    
+    textElem.textContent = clickResponses[Math.floor(Math.random() * clickResponses.length)];
+    
+    // Remove the shake class after animation finishes (500ms)
+    setTimeout(() => {
+        clippyContainer.classList.remove('shake');
+    }, 500);
+}
