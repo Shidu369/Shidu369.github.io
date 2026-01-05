@@ -18,6 +18,12 @@ body {
     width: 100vw;
     position: relative;
     padding: 10px;
+    background: 
+        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+        url("assets/im_op.gif");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .icon-container {
@@ -393,3 +399,4 @@ body:has(#bsod[style*="display: block"]) {
     animation: none !important;
     transform: none !important;
 }
+
