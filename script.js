@@ -1,3 +1,57 @@
+// --- FAST BIOS TYPEWRITER ---
+const biosLines = [
+    "S-BIOS (C) 2025 Portfolio Systems Inc.",
+    "Version 1.0.0  |  Build: 12/31/1999",
+    "",
+    "CPU: Intel(R) 80486 DX2 @ 3.6GHz",
+    "GPU: Integrated",
+    "Checking NVRAM ............ OK",
+    "Detecting Memory .......... 8000MB OK",
+    "",
+    
+    "USB Controllers .......... Disabled",
+    "PCI Devices .............. Scanned",
+    "",
+    "Loading RetroOS Bootloader",
+    "Verifying System Integrity",
+    "",
+    "SYSTEM READY",
+    "",
+    ">> Click to boot <<"
+];
+
+const biosTextElem = document.getElementById("bios-text");
+const bootBtn = document.getElementById("boot-btn");
+
+let lineIndex = 0;
+let charIndex = 0;
+
+function typeBiosText() {
+    if (lineIndex >= biosLines.length) {
+        bootBtn.style.display = "inline-block";
+        return;
+    }
+
+    const line = biosLines[lineIndex];
+
+    if (charIndex < line.length) {
+        biosTextElem.textContent += line.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeBiosText, 6); // 🔥 FAST typing
+    } else {
+        biosTextElem.textContent += "\n";
+        charIndex = 0;
+        lineIndex++;
+        setTimeout(typeBiosText, 100); // quick line delay
+    }
+}
+
+window.addEventListener("load", () => {
+    typeBiosText();
+});
+
+
+
 // 1. Clock Functionality
 function updateClock() {
     const now = new Date();
@@ -30,24 +84,26 @@ function closeWindow(id) {
     win.style.display = 'none';
     updateTaskbar();
 }
-
 function updateTaskbar() {
     const tabsContainer = document.getElementById('taskbar-tabs');
     tabsContainer.innerHTML = ''; // Clear current tabs
 
-    // Find all windows that are currently visible
-    const openWindows = document.querySelectorAll('.window');
-    
-    openWindows.forEach(win => {
-        if (win.style.display === 'flex' || win.style.display === 'block') {
-            const title = win.querySelector('.title-bar-text').textContent;
-            const tab = document.createElement('div');
+    document.querySelectorAll('.window[data-taskbar="true"]').forEach(win => {
+        if (win.style.display !== 'none') {
+            const title = win.querySelector('.title-bar-text')?.textContent || "Window";
+            
+            const tab = document.createElement('button'); // Changed from 'div' to 'button'
             tab.className = 'task-tab';
             tab.textContent = title;
-            
-            // Clicking the tab brings the window to front
-            tab.onclick = () => bringToFront(win);
-            
+
+            // When clicked, bring window to front
+            tab.onclick = () => {
+                bringToFront(win);
+                // Optional: Add an "active" class to the tab for styling
+                document.querySelectorAll('.task-tab').forEach(t => t.classList.remove('active-tab'));
+                tab.classList.add('active-tab');
+            };
+
             tabsContainer.appendChild(tab);
         }
     });
@@ -57,15 +113,7 @@ function updateTaskbar() {
 function bringToFront(element) {
     zIndexCounter++;
     element.style.zIndex = zIndexCounter;
-    
-    // Optional: Refresh tabs to show which is active
-    document.querySelectorAll('.task-tab').forEach(t => t.classList.remove('active'));
-    updateTaskbar(); 
-}
-
-function bringToFront(element) {
-    zIndexCounter++;
-    element.style.zIndex = zIndexCounter;
+    updateTaskbar();
 }
 
 // Add click event to all windows to bring them to front when clicked
@@ -128,33 +176,25 @@ document.querySelectorAll('.window').forEach(win => {
 
 // 1. Boot System Logic
 function bootSystem() {
-    // Hide the BIOS screen
-    const bootScreen = document.getElementById('boot-screen');
-    bootScreen.style.display = 'none';
-
-    // Show Desktop and Taskbar
+    document.getElementById('boot-screen').style.display = 'none';
     document.getElementById('main-desktop').style.display = 'block';
     document.getElementById('taskbar').style.display = 'flex';
 
-    // Play Sound
     const audio = document.getElementById('startup-sound');
-    // We try/catch because some browsers are very strict about audio
-    try {
-        audio.play();
-    } catch (err) {
-        console.log("Audio autoplay blocked or file missing");
-    }
+    audio.pause();
+    audio.currentTime = 0;
+
+    audio.play().catch(err => {
+        console.log("Audio issue:", err);
+    });
 }
+
 
 // 2. BSOD Logic
 function triggerBSOD() {
     document.getElementById('bsod').style.display = 'block';
 }
 
-function reboot() {
-    // Simply reload the page to simulate a reboot
-    location.reload();
-}
 
 // Optional: specific key press to reboot
 document.addEventListener('keydown', function(event) {
@@ -304,3 +344,18 @@ document.getElementById('target-btn').onclick = function() {
         moveTarget();
     }
 };
+
+function reboot() {
+    // 1. Remove the terrifying CSS effects
+    document.body.classList.remove('screen-glitch');
+    
+    // 2. Hide the BSOD
+    document.getElementById('bsod').style.display = 'none';
+    
+    // 3. Reset the game state
+    gameActive = false;
+    clearInterval(integrityInterval);
+
+    // 4. Either reload the page (cleanest) OR manually show the boot screen again
+    location.reload(); 
+}

@@ -1,3 +1,12 @@
+.bios-text {
+    font-family: "Courier New", monospace;
+    font-size: 18px;
+    line-height: 1.35;
+    color: #00ff00;
+    text-shadow: 0 0 2px #00ff00;
+    white-space: pre-wrap;
+}
+
 /* Reset and Base Font */
 * {
     box-sizing: border-box;
@@ -6,24 +15,22 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: "Courier New", Courier, monospace; /* Retro monospace font */
-    overflow: hidden; /* Prevent scrolling on the desktop */
-    background-color: #008080; /* Classic Windows Teal */
+    font-family: "Courier New", Courier, monospace;
+    overflow: hidden;
+    background-color: #008080;
     user-select: none;
 }
 
-/* Desktop Icon Styling */
+/* ================= DESKTOP ================= */
+
 .desktop {
     height: calc(100vh - 40px);
     width: 100vw;
     position: relative;
     padding: 10px;
-    background: 
-        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
-        url("assets/im_op.gif");
+    background-image: url('assets/im_op.gif');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
 }
 
 .icon-container {
@@ -31,6 +38,8 @@ body {
     flex-direction: column;
     gap: 20px;
     width: 100px;
+    position: relative;
+    z-index: 2;
 }
 
 .icon {
@@ -58,19 +67,20 @@ body {
     border: 1px dotted white;
 }
 
-/* Window Styling (The 3D Box) */
+/* ================= WINDOWS ================= */
+
 .window {
     position: absolute;
     width: 300px;
-    background-color: #c0c0c0; /* Windows Grey */
+    background-color: #c0c0c0;
     border: 2px solid;
-    border-color: #ffffff #808080 #808080 #ffffff; /* 3D Bevel Highlight/Shadow */
+    border-color: #ffffff #808080 #808080 #ffffff;
     box-shadow: 1px 1px 0px black;
     display: flex;
     flex-direction: column;
 }
 
-/* Title Bar (Blue Gradient) */
+/* Title Bar */
 .title-bar {
     background: linear-gradient(90deg, #000080, #1084d0);
     padding: 3px 4px;
@@ -87,29 +97,67 @@ body {
     letter-spacing: 1px;
 }
 
+.title-bar-controls {
+    display: flex;
+    gap: 2px;
+}
+
 .title-bar-controls button {
-    width: 20px;
-    height: 18px;
+    width: 18px;
+    height: 16px;
     font-size: 10px;
-    font-weight: bold;
+    padding: 0;
+    cursor: pointer;
     background-color: #c0c0c0;
     border: 2px solid;
     border-color: #ffffff #808080 #808080 #ffffff;
-    cursor: pointer;
 }
 
 .title-bar-controls button:active {
-    border-color: #808080 #ffffff #ffffff #808080; /* Inset on click */
+    border-color: #808080 #ffffff #ffffff #808080;
 }
 
-/* Window Content */
+#taskbar-tabs {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    height: 100%;
+}
+
+.task-tab {
+    height: 28px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff; /* 3D effect */
+    padding: 0 10px;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    max-width: 150px;
+    overflow: hidden;
+}
+
+.task-tab.active-tab {
+    background: #e0e0e0;
+    border-color: #808080 #ffffff #ffffff #808080; /* Inset effect */
+    font-weight: bold;
+}
+
+/* ✅ SINGLE, FIXED WINDOW BODY */
 .window-body {
+    flex: 1;
     padding: 15px;
     font-size: 14px;
     color: black;
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-wrap: break-word;
 }
 
-/* Generic Retro Button */
+/* ================= BUTTONS ================= */
+
 .retro-btn {
     background: #c0c0c0;
     border: 2px solid;
@@ -123,7 +171,8 @@ body {
     border-color: #808080 #ffffff #ffffff #808080;
 }
 
-/* Taskbar Styling */
+/* ================= TASKBAR ================= */
+
 .taskbar {
     height: 40px;
     background-color: #c0c0c0;
@@ -155,31 +204,23 @@ body {
     box-shadow: none;
 }
 
-.taskbar-divider {
-    flex-grow: 1;
-}
-
-/* Clock (Inset Look) */
 .clock {
     background-color: #c0c0c0;
     border: 2px solid;
-    border-color: #808080 #ffffff #ffffff #808080; /* Inset */
+    border-color: #808080 #ffffff #ffffff #808080;
     padding: 5px 10px;
     font-size: 14px;
     width: 90px;
     text-align: center;
 }
-/* --- NEW STYLES BELOW --- */
 
-/* Boot Screen (BIOS) */
+/* ================= BOOT / BSOD ================= */
+
 #boot-screen {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    inset: 0;
     background-color: black;
-    color: #00ff00; /* Retro Phosphor Green or White */
+    color: #00ff00;
     font-family: 'Courier New', monospace;
     z-index: 9999;
     padding: 40px;
@@ -187,19 +228,13 @@ body {
     flex-direction: column;
 }
 
-.boot-content {
-    max-width: 800px;
-}
-
 .boot-btn {
     background: transparent;
     border: 1px solid #00ff00;
     color: #00ff00;
     padding: 10px 20px;
-    font-family: inherit;
     cursor: pointer;
     margin-top: 20px;
-    text-transform: uppercase;
     font-weight: bold;
 }
 
@@ -208,88 +243,20 @@ body {
     color: black;
 }
 
-/* Blue Screen of Death (BSOD) */
 #bsod {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #0000AA; /* The specific Windows Blue */
+    inset: 0;
+    background-color: #0000AA;
     color: white;
     font-family: 'Courier New', monospace;
     font-weight: bold;
-    z-index: 10000; /* On top of everything */
+    z-index: 10000;
     padding: 100px;
-    cursor: none; /* Hide cursor for realism */
 }
 
-.bsod-title {
-    background-color: #AAAAAA;
-    color: #0000AA;
-    display: inline-block;
-    padding: 2px 5px;
-    margin-bottom: 20px;
-}
+/* ================= CLIPPY ================= */
 
-.bsod-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-.bsod-list li {
-    margin-bottom: 15px;
-}
-.title-bar-controls {
-    display: flex;
-    gap: 2px;
-}
-
-.title-bar-controls button {
-    width: 18px;
-    height: 16px;
-    font-size: 10px;
-    padding: 0;
-    cursor: pointer;
-    background-color: #c0c0c0;
-    border: 2px solid;
-    border-color: #ffffff #808080 #808080 #ffffff;
-}
-/* Fix for text going outside windows */
-.window-body {
-    padding: 15px;
-    font-size: 14px;
-    color: black;
-    overflow-y: auto;    /* Adds scrollbar if content is too long */
-    overflow-x: hidden;  /* Prevents side-scrolling */
-    word-wrap: break-word; /* Forces long words to break */
-    max-height: 400px;   /* Limits height so it doesn't go off-screen */
-}
-
-/* Taskbar Tab Styling */
-.task-tab {
-    background: #c0c0c0;
-    border: 2px solid;
-    border-color: #ffffff #808080 #808080 #ffffff;
-    padding: 2px 10px;
-    font-size: 12px;
-    max-width: 120px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
-
-.task-tab.active {
-    background: #e0e0e0;
-    border-color: #808080 #ffffff #ffffff #808080; /* Sunken look */
-    font-weight: bold;
-}
-
-/* Clippy Styling */
 .clippy-container {
     position: fixed;
     bottom: 60px;
@@ -302,7 +269,6 @@ body {
 
 .clippy-avatar {
     font-size: 50px;
-    filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.2));
 }
 
 .clippy-balloon {
@@ -313,24 +279,12 @@ body {
     font-size: 12px;
     width: 150px;
     margin-bottom: 10px;
-    position: relative;
-    box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
 }
 
-/* The little triangle on the speech bubble */
-.clippy-balloon:after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    right: 20px;
-    border-width: 10px 10px 0;
-    border-style: solid;
-    border-color: #ffffcc transparent;
-}
+/* ================= GAME / EFFECTS ================= */
 
-/* Game Styles */
 #target-btn {
-    position: absolute; /* REQUIRED for the button to move */
+    position: absolute;
     background: #ff0000;
     color: white;
     font-weight: bold;
@@ -339,64 +293,61 @@ body {
     cursor: pointer;
     z-index: 100;
 }
-/* Shake animation for when Clippy is clicked */
-.shake {
-    animation: shake 0.5s;
+
+/* 1. The new animation: changing the overlay opacity */
+@keyframes flash-red-overlay {
+    0% { background-color: rgba(255, 0, 0, 0); } /* Transparent */
+    50% { background-color: rgba(255, 0, 0, 0.4); } /* Semi-transparent Red */
+    100% { background-color: rgba(255, 0, 0, 0); }
 }
 
-@keyframes shake {
-    0% { transform: translate(1px, 1px) rotate(0deg); }
-    10% { transform: translate(-1px, -2px) rotate(-1deg); }
-    30% { transform: translate(3px, 2px) rotate(0deg); }
-    50% { transform: translate(-1px, 2px) rotate(1deg); }
-    70% { transform: translate(3px, 1px) rotate(-1deg); }
-    100% { transform: translate(1px, -2px) rotate(0deg); }
-}
-.malfunction-flash {
-    animation: flash-red 0.5s infinite;
-}
-
-@keyframes flash-red {
-    0% { background-color: white; }
-    50% { background-color: #ffcccc; }
-    100% { background-color: white; }
-}
-/* Blinking Text */
-@keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }
+/* 2. Create a "Flash Layer" that sits on top of the wallpaper but behind icons */
+.screen-glitch #main-desktop::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Sits above wallpaper */
+    pointer-events: none; /* Allows you to still click icons */
+    animation: flash-red-overlay 0.3s infinite !important;
 }
 
-/* Red Screen Flash */
-
-/* Less Intense Shake */
-@keyframes shake {
-    0% { transform: translate(0px, 0px) rotate(0deg); }
-    20% { transform: translate(-1px, 0.5px) rotate(-0.2deg); }
-    40% { transform: translate(1px, -0.5px) rotate(0.2deg); }
-    60% { transform: translate(-1px, -0.5px) rotate(0deg); }
-    80% { transform: translate(1px, 0.5px) rotate(0.1deg); }
-    100% { transform: translate(0px, 0px) rotate(0deg); }
-}
-
-/* Update the glitch speed if it feels too 'jittery' */
-.screen-glitch {
-    /* Changing 0.1s to 0.2s makes the shake slower/smoother */
-    animation: shake 0.2s infinite, flash-red 0.3s infinite !important;
-}
-
-@keyframes flash-red-heavy {
-    0% { background-color: #008080; } /* Original Teal */
-    50% { background-color: #4b0000; } /* Dark Red */
-}
-
-/* Integrity Bar Animation */
 #integrity-bar {
     transition: width 0.1s linear;
 }
+
 body:has(#bsod[style*="display: block"]) {
     animation: none !important;
     transform: none !important;
 }
 
+
+/* Container for the image */
+.profile-frame {
+    width: 140px;           /* Fixed size for a "passport" photo look */
+    height: 140px;
+    background: #000;       /* Black background in case image fails */
+    padding: 2px;
+    
+    /* Classic "Sunk-in" Retro Border */
+    border: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080; 
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;         /* Prevents the frame from squishing in flexboxes */
+}
+
+/* The actual image inside the frame */
+.profile-pixel {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;      /* Keeps the aspect ratio even if your file isn't square */
+    
+    /* Optional: This makes your JPEG look like pixel art if it's small! */
+    image-rendering: pixelated; 
+    filter: contrast(1.1) grayscale(0.2); /* Gives it a slight "old camera" vibe */
+}

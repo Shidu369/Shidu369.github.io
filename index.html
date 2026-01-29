@@ -1,178 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RetroOS Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* This ensures your About Me content stays inside the window */
-        .window-body {
-            max-height: 400px; 
-            overflow-y: auto; 
-            overflow-x: hidden;
-            word-wrap: break-word;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RetroOS Portfolio</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
 
-    <audio id="startup-sound" src="https://theportalwiki.com/w/images/d/d3/Windows_95_Startup.mp3" preload="auto"></audio>
+<audio id="startup-sound" src="assets/x.ogv" preload="auto"></audio>
 
-    <div id="boot-screen">
-        <div class="boot-content">
-            <p>RETRO-BIOS (C) 2025 Portfolio Systems Inc.</p>
-            <p>BIOS Date: 12/31/99 11:59:59 Ver: 1.0.0</p>
-            <p>CPU: Intel 486 DX2 66MHz</p>
-            <p>Memory Test: 640K OK</p>
-            <br>
-            <p>Detecting Primary Master ... Maxtor 540MB</p>
-            <p>Detecting Primary Slave ... None</p>
-            <br>
-            <button class="boot-btn" onclick="bootSystem()">[ CLICK TO BOOT SYSTEM ]</button>
+<div id="boot-screen">
+    <div class="boot-content">
+        <pre id="bios-text" class="bios-text"></pre>
+        <button id="boot-btn" class="boot-btn" onclick="bootSystem()" style="display:none;">
+            [ CLICK TO BOOT SYSTEM ]
+        </button>
+    </div>
+</div>
+
+<div class="desktop" id="main-desktop" style="display:none;">
+<div class="icon-container">
+
+    <div class="icon" onclick="openWindow('about-window')">
+        <div class="icon-img">👤</div>
+        <div class="icon-label">About-Me</div>
+    </div>
+
+    <div class="icon" onclick="openWindow('projects-window')">
+        <div class="icon-img">📁</div>
+        <div class="icon-label">Projects</div>
+    </div>
+
+    <div class="icon" onclick="openWindow('media-window')">
+        <div class="icon-img">📺</div>
+        <div class="icon-label">Media_Log</div>
+    </div>
+
+    <div class="icon" onclick="openWindow('contact-window')">
+        <div class="icon-img">✉️</div>
+        <div class="icon-label">Contact</div>
+    </div>
+
+    <div class="icon" onclick="startMalfunction()">
+        <div class="icon-img">⚠️</div>
+        <div class="icon-label">DANGER</div>
+    </div>
+
+</div>
+
+
+<!-- ABOUT WINDOW -->
+<div id="about-window" class="window draggable" data-taskbar="true"
+     style="display:none; top:5%; left:10%; width:520px; height:480px;">
+
+    <div class="title-bar">
+        <div class="title-bar-text">About_Me.exe</div>
+        <div class="title-bar-controls">
+            <button onclick="closeWindow('about-window')">X</button>
         </div>
     </div>
 
-    <div id="bsod" onclick="reboot()">
-        <p class="bsod-title">Windows</p>
-        <p>A fatal exception 0E has occurred at 0028:C0011E36 in VXD VMM(01) + 00010E36.</p>
-        <br>
-        <ul class="bsod-list">
-            <li>* Press any key to restart your computer.</li>
+
+
+    <div class="window-body">
+
+        <div style="display:flex; gap:15px; margin-bottom:10px;">
+            <div class="profile-frame">
+                <img src="assets/me.jpeg"
+                     alt="Pixelated portrait of Shridhar"
+                     class="profile-pixel">
+            </div>
+
+            <div>
+                <h2 style="margin:0; font-size:18px;">SEC_ENTHUSIAST.EXE</h2>
+                <p><strong>Education:</strong> SDM College, Dharwad</p>
+                <p><strong>Focus:</strong> Cybersecurity & Tech Systems</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <p><strong>Hi, I’m Shridhar.</strong></p>
+
+        <p>
+        I’m an Information Science student at SDM College, Dharwad, with a strong interest in
+        cybersecurity, operating systems, and understanding how computers work at a deeper level.
+        </p>
+
+        <p>
+        I enjoy building interactive projects, experimenting with retro systems,
+        and learning by breaking and rebuilding things (ethically).
+        </p>
+
+        <p>
+        Outside academics, I’m really into video games, tech-focused series, and movies.
+        I enjoy experiences that make you think — whether that’s a complex game system,
+        a show exploring technology and society, or deep philosophical ideas.
+        </p>
+
+        <p>
+        I tend to think quickly and deeply, often exploring ideas from multiple angles.
+        This doesn’t always fit neatly into conventional ways of thinking and can sometimes
+        be misunderstood — but it also fuels my curiosity, creativity,
+        and ability to focus intensely on things I genuinely care about.
+        </p>
+
+        <p>
+        I’m especially drawn to questions about technology, human behavior,
+        and how systems — both technical and social — function beneath the surface.
+        </p>
+
+        <p><strong>Currently learning and exploring:</strong></p>
+
+        <ul>
+            <li>Cybersecurity fundamentals</li>
+            <li>C and low-level programming</li>
+            <li>Web-based system simulations</li>
         </ul>
-        <br>
-        <p style="text-align: center">Press any key to continue _</p>
+
+        <p>
+        I value curiosity, honesty, and continuous learning.
+        </p>
+
+        <details>
+            <summary style="cursor:pointer; color:navy; font-weight:bold;">
+                [+] Technical Hobbies
+            </summary>
+            <ul>
+                <li>Home Lab Tinkering</li>
+                <li>CTF Challenges</li>
+                <li>PC Modding</li>
+            </ul>
+        </details>
+
     </div>
+</div>
+<!-- MEDIA WINDOW -->
+<div id="media-window" class="window draggable" data-taskbar="true"
+     style="display: none; top: 30%; left: 15%; width: 320px;">
 
-    <div class="desktop" id="main-desktop" style="display: none;">
-        
-        <div id="clippy" class="clippy-container" onclick="clippyClick()">
-            <div class="clippy-balloon" id="clippy-text">Hi! I'm Clippy. Need help exploring?</div>
-            <div class="clippy-avatar">📎</div>
-        </div>
-
-        <div class="icon-container">
-            <div class="icon" onclick="openWindow('about-window')">
-                <div class="icon-img">👤</div>
-                <div class="icon-label">About-Me</div>
-            </div>
-            <div class="icon" onclick="openWindow('projects-window')">
-                <div class="icon-img">📁</div>
-                <div class="icon-label">Projects</div>
-            </div>
-            <div class="icon" onclick="openWindow('media-window')">
-                <div class="icon-img">📺</div>
-                <div class="icon-label">Media_Log</div>
-            </div>
-            <div class="icon" onclick="openWindow('contact-window')">
-                <div class="icon-img">✉️</div>
-                <div class="icon-label">Contact</div>
-            </div>
-            <div class="icon" onclick="startMalfunction()">
-                <div class="icon-img">⚠️</div>
-                <div class="icon-label">DANGER</div>
-            </div>
-        </div>
-
-        <div id="about-window" class="window draggable" style="display: none; top: 5%; left: 10%;">
-            <div class="title-bar">
-                <div class="title-bar-text">About_Me.exe</div>
-                <div class="title-bar-controls">
-                    <button onclick="closeWindow('about-window')">X</button>
-                </div>
-            </div>
-            <div class="window-body">
-                <div style="display: flex; gap: 15px;">
-                    <div class="profile-frame" style="width: 100px; height: 100px; border: 2px inset white; background: #000; flex-shrink: 0;">
-                        <div style="color: #0f0; font-size: 10px; padding: 5px; font-family: monospace;">
-                            [SCANNING...]<br>USER: AUTHENTICATED<br>LOC: SDM_DHARWAD
-                        </div>
-                    </div>
-                    <div>
-                        <h2 style="margin: 0; font-size: 18px;">SEC_ENTHUSIAST.EXE</h2>
-                        <p><strong>Education:</strong> SDM College, Dharwad</p>
-                        <p><strong>Focus:</strong> Cybersecurity & Tech Systems</p>
-                    </div>
-                </div>
-                <hr>
-                <p>I am a tech and cybersecurity enthusiast with a passion for breaking and building systems. When I'm not auditing networks, you'll find me gaming or binge-watching web series.</p>
-                <details>
-                    <summary style="cursor: pointer; color: navy; font-weight: bold;">[+] Technical Hobbies</summary>
-                    <ul style="margin-top: 5px;">
-                        <li>Home Lab Tinkering</li>
-                        <li>CTF Challenges</li>
-                        <li>PC Modding</li>
-                    </ul>
-                </details>
-            </div>
-        </div>
-
-        <div id="media-window" class="window draggable" style="display: none; top: 30%; left: 15%; width: 320px;">
-            <div class="title-bar">
-                <div class="title-bar-text">Entertainment.log</div>
-                <div class="title-bar-controls">
-                    <button onclick="closeWindow('media-window')">X</button>
-                </div>
-            </div>
-            <div class="window-body" style="background: #e0e0e0;">
-                <h4 style="margin-top:0;">🎮 Currently Gaming:</h4>
-                <p style="font-size: 12px; border-left: 3px solid navy; padding-left: 5px;">Valorant / Elden Ring / Cyberpunk 2077</p>
-                <h4>🎬 Web Series Watchlist:</h4>
-                <ul style="font-size: 12px;">
-                    <li>Mr. Robot (Obviously!)</li>
-                    <li>The Boys</li>
-                    <li>Black Mirror</li>
-                </ul>
-            </div>
-        </div>
-
-        <div id="projects-window" class="window draggable" style="display: none; top: 15%; left: 30%;">
-            <div class="title-bar">
-                <div class="title-bar-text">C:\Projects</div>
-                <div class="title-bar-controls">
-                    <button onclick="closeWindow('projects-window')">X</button>
-                </div>
-            </div>
-            <div class="window-body">
-                <ul><li>Project Alpha</li><li>Project Beta</li></ul>
-            </div>
-        </div>
-
-        <div id="contact-window" class="window draggable" style="display: none; top: 20%; left: 20%;">
-            <div class="title-bar">
-                <div class="title-bar-text">Contact Info</div>
-                <div class="title-bar-controls">
-                    <button onclick="closeWindow('contact-window')">X</button>
-                </div>
-            </div>
-            <div class="window-body"><p>Email: dev@retro.com</p></div>
-        </div>
-
-        <div id="game-window" class="window draggable" style="display: none; top: 20%; left: 35%; width: 300px; border-color: red;">
-            <div class="title-bar" style="background: linear-gradient(90deg, #ff0000, #8b0000);">
-                <div class="title-bar-text">⚠️ CRITICAL_FAILURE.exe</div>
-            </div>
-            <div class="window-body" style="background-color: #000; color: #ff0000;">
-                <p style="font-weight: bold; animation: blink 0.5s infinite;">!!! SECURITY BREACH !!!</p>
-                <div id="progress-container" style="width: 100%; height: 20px; background: #333; border: 2px solid #8b0000; margin: 10px 0;">
-                    <div id="integrity-bar" style="width: 100%; height: 100%; background: #ff0000;"></div>
-                </div>
-                <p id="game-status">GLITCHES CAUGHT: 0/5</p>
-                <div id="game-area" style="height: 180px; position: relative; background: #111; border: 2px inset #ff0000; overflow: hidden;">
-                    <button id="target-btn" class="retro-btn" style="position: absolute; display: none;">ERROR</button>
-                </div>
-            </div>
+    <div class="title-bar">
+        <div class="title-bar-text">Entertainment.log</div>
+        <div class="title-bar-controls">
+            <button onclick="closeWindow('media-window')">X</button>
         </div>
     </div>
 
-    <div class="taskbar" id="taskbar" style="display: none;">
-        <button class="start-btn"><span class="logo">🏁</span> Start</button>
-        <div class="taskbar-divider"></div>
-        <div id="taskbar-tabs" style="display: flex; gap: 5px; flex-grow: 1; margin: 0 10px;"></div>
-        <div class="clock" id="clock">12:00 PM</div>
+    <div class="window-body" style="background: #e0e0e0;">
+        <h4 style="margin-top: 0;">🎮 Currently Gaming:</h4>
+        <p style="font-size: 12px; border-left: 3px solid navy; padding-left: 5px;">
+            Valorant / Elden Ring / Cyberpunk 2077
+        </p>
+
+        <h4>🎬 Web Series Watchlist:</h4>
+        <ul style="font-size: 12px;">
+            <li>Mr. Robot (Obviously!)</li>
+            <li>The Boys</li>
+            <li>Black Mirror</li>
+        </ul>
+    </div>
+</div>
+
+
+<!-- PROJECTS WINDOW -->
+<div id="projects-window" class="window draggable" data-taskbar="true"
+     style="display: none; top: 15%; left: 30%;">
+
+    <div class="title-bar">
+        <div class="title-bar-text">C:\Projects</div>
+        <div class="title-bar-controls">
+            <button onclick="closeWindow('projects-window')">X</button>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <div class="window-body">
+        <ul>
+            <li>Project Alpha</li>
+            <li>Project Beta</li>
+        </ul>
+    </div>
+</div>
+
+
+<!-- CONTACT WINDOW -->
+<div id="contact-window" class="window draggable" data-taskbar="true"
+     style="display: none; top: 20%; left: 20%;">
+
+    <div class="title-bar">
+        <div class="title-bar-text">Contact Info</div>
+        <div class="title-bar-controls">
+            <button onclick="closeWindow('contact-window')">X</button>
+        </div>
+    </div>
+
+    <div class="window-body">
+        <p>Email: dev@retro.com</p>
+    </div>
+</div>
+
+
+
+<!-- TASKBAR -->
+<div class="taskbar" id="taskbar" style="display: none;">
+    <button class="start-btn">
+        <span class="logo">🏁</span> Start
+    </button>
+
+    <div class="taskbar-divider"></div>
+
+    <div id="taskbar-tabs"
+         style="display: flex; gap: 5px; flex-grow: 1; margin: 0 10px;">
+    </div>
+
+    <div class="clock" id="clock">12:00 PM</div>
+</div>
+</div>
+
+<div class="clippy-container" onclick="clippyClick()">
+    <div class="clippy-balloon">
+        <span id="clippy-text">Hi! I'm Clippy!</span>
+    </div>
+    <div class="clippy-avatar">📎</div>
+</div>
+
+
+
+<!-- GAME / MALFUNCTION WINDOW -->
+<div id="game-window" class="window draggable"
+     style="display: none; top: 20%; left: 35%; width: 300px; border-color: red;">
+
+    <div class="title-bar"
+         style="background: linear-gradient(90deg, #ff0000, #8b0000);">
+        <div class="title-bar-text">⚠️ CRITICAL_FAILURE.exe</div>
+    </div>
+
+    <div class="window-body" style="background-color: #000; color: #ff0000;">
+        <p style="font-weight: bold; animation: blink 0.5s infinite;">
+            !!! SECURITY BREACH !!!
+        </p>
+
+        <div id="progress-container"
+             style="width: 100%; height: 20px; background: #333;
+                    border: 2px solid #8b0000; margin: 10px 0;">
+            <div id="integrity-bar"
+                 style="width: 100%; height: 100%; background: #ff0000;"></div>
+        </div>
+        <p>Hint:Click on The Errors</p>
+
+        <p id="game-status">GLITCHES CAUGHT: 0/5</p>
+
+        <div id="game-area"
+             style="height: 180px; position: relative; background: #111;
+                    border: 2px inset #ff0000; overflow: hidden;">
+            <button id="target-btn" class="retro-btn"
+                    style="position: absolute; display: none;">
+                ERROR
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div id="bsod" onclick="reboot()">
+    <p>A problem has been detected and RetroOS has been shut down to prevent damage to your computer.</p>
+    <p>FATAL_ERROR_CODE: 0x0000005C</p>
+    <br>
+    <p>If this is the first time you've seen this Stop error screen, restart your computer. If this screen appears again, follow these steps:</p>
+    <br>
+    <p>Press ANY KEY to restart _</p>
+</div>
+
+
+<script src="scripts/boot.js"></script>
+<script src="scripts/clippy.js"></script>
+<script src="scripts/game.js"></script>
 
 </body>
 </html>
+

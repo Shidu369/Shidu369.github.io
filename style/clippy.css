@@ -1,0 +1,23 @@
+.clippy-container {
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 5000;
+}
+
+.clippy-avatar {
+    font-size: 50px;
+}
+
+.clippy-balloon {
+    background: #ffffcc;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    width: 150px;
+    margin-bottom: 10px;
+}

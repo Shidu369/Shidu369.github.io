@@ -1,0 +1,257 @@
+.bios-text {
+    font-family: "Courier New", monospace;
+    font-size: 18px;
+    line-height: 1.35;
+    color: #00ff00;
+    text-shadow: 0 0 2px #00ff00;
+    white-space: pre-wrap;
+}
+
+/* Reset and Base Font */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Courier New", Courier, monospace;
+    overflow: hidden;
+    background-color: #008080;
+    user-select: none;
+}
+
+/* ================= DESKTOP ================= */
+
+.desktop {
+    height: calc(100vh - 40px);
+    width: 100vw;
+    position: relative;
+    padding: 10px;
+    z-index: 1;
+    background:
+        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+        url("assets/im_op.gif");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.icon-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100px;
+    position: relative;
+    z-index: 2;
+}
+
+.icon {
+    width: 80px;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+}
+
+.icon-img {
+    font-size: 32px;
+    margin-bottom: 5px;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+}
+
+.icon-label {
+    background-color: #008080;
+    padding: 2px;
+    font-size: 14px;
+    border: 1px dotted transparent;
+}
+
+.icon:hover .icon-label {
+    background-color: #000080;
+    border: 1px dotted white;
+}
+
+/* ================= WINDOWS ================= */
+
+.window {
+    position: absolute;
+    width: 300px;
+    background-color: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    box-shadow: 1px 1px 0px black;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Title Bar */
+.title-bar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    padding: 3px 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: grab;
+}
+
+.title-bar-text {
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.title-bar-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.title-bar-controls button {
+    width: 18px;
+    height: 16px;
+    font-size: 10px;
+    padding: 0;
+    cursor: pointer;
+    background-color: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+}
+
+.title-bar-controls button:active {
+    border-color: #808080 #ffffff #ffffff #808080;
+}
+
+/* ✅ SINGLE, FIXED WINDOW BODY */
+.window-body {
+    flex: 1;
+    padding: 15px;
+    font-size: 14px;
+    color: black;
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-wrap: break-word;
+}
+
+/* ================= BUTTONS ================= */
+
+.retro-btn {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.retro-btn:active {
+    border-color: #808080 #ffffff #ffffff #808080;
+}
+
+/* ================= TASKBAR ================= */
+
+.taskbar {
+    height: 40px;
+    background-color: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.task-tab {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    padding: 2px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    min-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.task-tab:active {
+    border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.start-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+    padding: 5px 10px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    box-shadow: 1px 1px 0 black;
+    cursor: pointer;
+}
+
+.start-btn:active {
+    border-color: #808080 #ffffff #ffffff #808080;
+    box-shadow: none;
+}
+
+.clock {
+    background-color: #c0c0c0;
+    border: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080;
+    padding: 5px 10px;
+    font-size: 14px;
+    width: 90px;
+    text-align: center;
+}
+
+/* ================= BOOT / BSOD ================= */
+
+#boot-screen {
+    position: fixed;
+    inset: 0;
+    background-color: black;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    z-index: 9999;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.boot-btn {
+    background: transparent;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.boot-btn:hover {
+    background: #00ff00;
+    color: black;
+}
+
+/* Pixel profile (final, safe version) */
+.profile-frame {
+    width: 120px;
+    height: 120px;
+    border: 1px inset white;
+    background: #000;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-pixel {
+    width: 96px;
+    height: 96px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    border: 1px solid #00ff00;
+}

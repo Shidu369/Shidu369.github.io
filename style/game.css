@@ -1,0 +1,47 @@
+#target-btn {
+    position: absolute;
+    background: #ff0000;
+    color: white;
+    font-weight: bold;
+    border: 2px outset white;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 100;
+}
+
+@keyframes shake {
+    0% { transform: translate(0); }
+    50% { transform: translate(1px, -1px); }
+    100% { transform: translate(0); }
+}
+
+.screen-glitch {
+    animation: shake 0.2s infinite, flash-red 0.3s infinite !important;
+}
+
+@keyframes flash-red {
+    0% { background-color: #008080; }
+    50% { background-color: #ffcccc; }
+    100% { background-color: #008080; }
+}
+
+#integrity-bar {
+    transition: width 0.1s linear;
+}
+
+body:has(#bsod[style*="display: block"]) {
+    animation: none !important;
+    transform: none !important;
+}
+
+#bsod {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: #0000AA;
+    color: white;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    z-index: 10000;
+    padding: 100px;
+}
