@@ -1,19 +1,29 @@
 const clippyLines = [
     "It looks like you're trying to view a portfolio!",
     "I can help you find the projects folder.",
-    "Did you know clicking the teal background does nothing?",
     "Check out the 'Danger' icon... if you dare!",
-    "I'm here to stay, whether you like it or not!"
+    "I'm here to stay, whether you like it or not!",
+    "Is it a bug, or is it a feature? I'll never tell.",
+    "If you highlight the right spot, you might find something 👀",
+    "Sleep schedule? Never heard of her.",
+    "Say my name. (It's Clippit, but Clippy is fine.)",
+    "Getting lost in internet lore and finding a home there."
 ];
 
+// Flag to pause Clippy text rotation during game
+window.clippyGameActive = false;
+
 function rotateClippyText() {
+    // Don't rotate text if the game is active
+    if (window.clippyGameActive) return;
+    
     const textElem = document.getElementById('clippy-text');
     const randomLine = clippyLines[Math.floor(Math.random() * clippyLines.length)];
     textElem.textContent = randomLine;
 }
 
-// Change Clippy's text every 10 seconds
-setInterval(rotateClippyText, 10000);
+// Change Clippy's text every x seconds
+setInterval(rotateClippyText, 9000);
 
 
 function clippyClick() {
@@ -28,7 +38,6 @@ function clippyClick() {
         "Hey! That tickles.",
         "Stop clicking me and look at the Projects!",
         "I'm made of metal, you know.",
-        "Can I help you write a letter?",
         "Ouch! My paperclip head!"
     ];
     

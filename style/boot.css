@@ -28,13 +28,9 @@ body {
     width: 100vw;
     position: relative;
     padding: 10px;
-    z-index: 1;
-    background:
-        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
-        url("assets/im_op.gif");
+    background-image: url('assets/im_op.gif');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
 }
 
 .icon-container {
@@ -121,6 +117,34 @@ body {
     border-color: #808080 #ffffff #ffffff #808080;
 }
 
+#taskbar-tabs {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    height: 100%;
+}
+
+.task-tab {
+    height: 28px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff; /* 3D effect */
+    padding: 0 10px;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    max-width: 150px;
+    overflow: hidden;
+}
+
+.task-tab.active-tab {
+    background: #e0e0e0;
+    border-color: #808080 #ffffff #ffffff #808080; /* Inset effect */
+    font-weight: bold;
+}
+
 /* ✅ SINGLE, FIXED WINDOW BODY */
 .window-body {
     flex: 1;
@@ -160,21 +184,6 @@ body {
     bottom: 0;
     width: 100%;
     z-index: 1000;
-}
-.task-tab {
-    background: #c0c0c0;
-    border: 2px solid;
-    border-color: #ffffff #808080 #808080 #ffffff;
-    padding: 2px 10px;
-    font-size: 12px;
-    cursor: pointer;
-    min-width: 100px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.task-tab:active {
-    border-color: #808080 #ffffff #ffffff #808080;
 }
 
 .start-btn {
@@ -234,24 +243,30 @@ body {
     color: black;
 }
 
-/* Pixel profile (final, safe version) */
+/* Container for the image */
 .profile-frame {
-    width: 120px;
-    height: 120px;
-    border: 1px inset white;
-    background: #000;
-    flex-shrink: 0;
+    width: 140px;           /* Fixed size for a "passport" photo look */
+    height: 140px;
+    background: #000;       /* Black background in case image fails */
+    padding: 2px;
+    
+    /* Classic "Sunk-in" Retro Border */
+    border: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080; 
+    
     display: flex;
-    align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
+    align-items: center;
+    flex-shrink: 0;         /* Prevents the frame from squishing in flexboxes */
 }
 
+/* The actual image inside the frame */
 .profile-pixel {
-    width: 96px;
-    height: 96px;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-    border: 1px solid #00ff00;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;      /* Keeps the aspect ratio even if your file isn't square */
+    
+    /* Optional: This makes your JPEG look like pixel art if it's small! */
+    image-rendering: pixelated; 
+    filter: contrast(1.1) grayscale(0.2); /* Gives it a slight "old camera" vibe */
 }

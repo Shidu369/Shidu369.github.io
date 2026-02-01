@@ -62,6 +62,7 @@ body {
     border: 1px dotted transparent;
 }
 
+
 .icon:hover .icon-label {
     background-color: #000080;
     border: 1px dotted white;
@@ -137,6 +138,18 @@ body {
     cursor: pointer;
     max-width: 150px;
     overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-shrink: 1;
+}
+
+.task-tab:hover {
+    background-color: #e0e0e0;
+}
+
+.task-tab:focus {
+    outline: 2px solid #000080;
+    outline-offset: -2px;
 }
 
 .task-tab.active-tab {
@@ -165,6 +178,15 @@ body {
     padding: 5px 15px;
     cursor: pointer;
     font-family: inherit;
+    transition: all 0.1s;
+}
+
+.retro-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.retro-btn:focus {
+    outline: 1px dotted #000080;
 }
 
 .retro-btn:active {
@@ -182,26 +204,49 @@ body {
     padding: 0 5px;
     position: fixed;
     bottom: 0;
-    width: 100%;
+    left: 0;
+    right: 0;
     z-index: 1000;
 }
 
-.start-btn {
+/* Taskbar tabs container: stretch to fill space between shutdown and clock */
+#taskbar-tabs {
+    display: flex;
+    gap: 5px;
+    flex: 1 1 auto;
+    margin: 0 8px;
+    align-items: center;
+}
+
+.shutdown-btn {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     font-weight: bold;
-    padding: 5px 10px;
+    padding: 6px 12px;
     background: #c0c0c0;
     border: 2px solid;
     border-color: #ffffff #808080 #808080 #ffffff;
     box-shadow: 1px 1px 0 black;
     cursor: pointer;
+    font-size: 12px;
+    transition: all 0.1s;
+    font-family: "Courier New", monospace;
+    flex: 0 0 auto;
+    margin-left: 6px;
 }
 
-.start-btn:active {
+.shutdown-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.shutdown-btn:active {
     border-color: #808080 #ffffff #ffffff #808080;
-    box-shadow: none;
+    box-shadow: inset 1px 1px 0 black;
+}
+
+.shutdown-btn:focus {
+    outline: 1px dotted #000080;
 }
 
 .clock {
@@ -214,11 +259,14 @@ body {
     text-align: center;
 }
 
-/* ================= BOOT / BSOD ================= */
+/* ================= BOOT */
 
 #boot-screen {
     position: fixed;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background-color: black;
     color: #00ff00;
     font-family: 'Courier New', monospace;
@@ -243,86 +291,41 @@ body {
     color: black;
 }
 
-#bsod {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background-color: #0000AA;
-    color: white;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    z-index: 10000;
-    padding: 100px;
+#power-on-btn:hover {
+    color: #0f0; /* Green LED glow */
+    border-color: #0f0;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
 }
 
-/* ================= CLIPPY ================= */
-
-.clippy-container {
-    position: fixed;
-    bottom: 60px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 5000;
+#shutdown-screen p {
+    user-select: none;
+    letter-spacing: 2px;
 }
 
-.clippy-avatar {
-    font-size: 50px;
-}
-
-.clippy-balloon {
-    background: #ffffcc;
-    border: 1px solid black;
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 12px;
-    width: 150px;
-    margin-bottom: 10px;
-}
-
-/* ================= GAME / EFFECTS ================= */
-
-#target-btn {
-    position: absolute;
-    background: #ff0000;
-    color: white;
-    font-weight: bold;
-    border: 2px outset white;
-    padding: 5px;
+/*Projects*/
+.folder-item {
+    padding: 4px 8px;
     cursor: pointer;
-    z-index: 100;
+    white-space: nowrap;
 }
 
-/* 1. The new animation: changing the overlay opacity */
-@keyframes flash-red-overlay {
-    0% { background-color: rgba(255, 0, 0, 0); } /* Transparent */
-    50% { background-color: rgba(255, 0, 0, 0.4); } /* Semi-transparent Red */
-    100% { background-color: rgba(255, 0, 0, 0); }
+.folder-item:hover {
+    background-color: #000080;
+    color: white;
 }
 
-/* 2. Create a "Flash Layer" that sits on top of the wallpaper but behind icons */
-.screen-glitch #main-desktop::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1; /* Sits above wallpaper */
-    pointer-events: none; /* Allows you to still click icons */
-    animation: flash-red-overlay 0.3s infinite !important;
+.folder-item.active-folder {
+    background-color: #000080;
+    color: white;
+    outline: 1px dotted #fff;
 }
 
-#integrity-bar {
-    transition: width 0.1s linear;
+#explorer-content h3 {
+    margin-top: 0;
+    font-size: 16px;
+    color: #000080;
 }
-
-body:has(#bsod[style*="display: block"]) {
-    animation: none !important;
-    transform: none !important;
-}
-
 
 /* Container for the image */
 .profile-frame {
@@ -351,3 +354,142 @@ body:has(#bsod[style*="display: block"]) {
     image-rendering: pixelated; 
     filter: contrast(1.1) grayscale(0.2); /* Gives it a slight "old camera" vibe */
 }
+
+
+
+/* ================= CLIPPY ================= */
+
+/* Container positioned above the taskbar */
+.clippy-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    display: none; /* Keep him hidden during BIOS */
+    opacity: 0;    
+    flex-direction: column;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1.5s ease-in-out; 
+}
+
+/* The Paperclip with Pulse & Glow */
+.clippy-avatar {
+    font-size: 50px;
+    user-select: none;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.8));
+    animation: clippy-pulse 2s infinite alternate;
+    transition: transform 0.2s;
+}
+
+/* The Retro Yellow Speech Bubble */
+.clippy-balloon {
+    background: #FFFFE1;
+    border: 1px solid black;
+    padding: 10px;
+    font-size: 12px;
+    font-family: 'Tahoma', 'Arial', sans-serif;
+    width: 150px;
+    margin-bottom: 15px;
+    position: relative;
+    box-shadow: 0 0 10px rgba(255, 255, 204, 0.6), 2px 2px 0px rgba(0,0,0,0.2);
+    color: black;
+}
+
+/* The Triangle Tail for that 90s look */
+.clippy-balloon::after {
+    content: '';
+    position: absolute;
+    bottom: -11px;
+    right: 20px;
+    border-width: 11px 11px 0 0;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+.clippy-balloon::before {
+    content: '';
+    position: absolute;
+    bottom: -9px;
+    right: 21px;
+    border-width: 10px 10px 0 0;
+    border-style: solid;
+    border-color: #FFFFE1 transparent transparent transparent;
+    z-index: 1;
+}
+
+/* Animations: Pulse and Shake */
+@keyframes clippy-pulse {
+    from { transform: scale(1); filter: drop-shadow(0 0 3px rgba(0, 255, 255, 0.4)); }
+    to { transform: scale(1.1); filter: drop-shadow(0 0 15px rgba(0, 255, 255, 1)); }
+}
+
+@keyframes retro-shake {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-8px, 2px); }
+    50% { transform: translate(8px, -2px); }
+    75% { transform: translate(-8px, -2px); }
+}
+
+.shake {
+    animation: retro-shake 0.4s ease-in-out !important;
+}
+
+
+/* ================= GAME / EFFECTS ================= */
+
+#target-btn {
+    position: absolute;
+    background: #ff0000;
+    color: white;
+    font-weight: bold;
+    border: 2px outset white;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 100;
+}
+
+/* 1. The new animation: changing the overlay opacity */
+@keyframes flash-red-overlay {
+    0% { background-color: rgba(255, 0, 0, 0); } /* Transparent */
+    50% { background-color: rgba(255, 0, 0, 0.4); } /* Semi-transparent Red */
+    100% { background-color: rgba(255, 0, 0, 0); }
+}
+
+/* 2. Create a "Flash Layer" that sits on top of the wallpaper but behind icons */
+.screen-glitch .desktop::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Sits above wallpaper */
+    pointer-events: none; /* Allows you to still click icons */
+    animation: flash-red-overlay 0.3s infinite !important;
+}
+
+#integrity-bar {
+    transition: width 0.1s linear;
+}
+
+body:has(#bsod[style*="display: block"]) {
+    animation: none !important;
+    transform: none !important;
+}
+
+#bsod {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #0000AA;
+    color: white;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    z-index: 10000;
+    padding: 100px;
+}
+
+
+

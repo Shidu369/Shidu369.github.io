@@ -1,3 +1,4 @@
+
 #target-btn {
     position: absolute;
     background: #ff0000;
@@ -9,29 +10,28 @@
     z-index: 100;
 }
 
-@keyframes shake {
-    0% { transform: translate(0); }
-    50% { transform: translate(1px, -1px); }
-    100% { transform: translate(0); }
+/* 1. The new animation: changing the overlay opacity */
+@keyframes flash-red-overlay {
+    0% { background-color: rgba(255, 0, 0, 0); } /* Transparent */
+    50% { background-color: rgba(255, 0, 0, 0.4); } /* Semi-transparent Red */
+    100% { background-color: rgba(255, 0, 0, 0); }
 }
 
-.screen-glitch {
-    animation: shake 0.2s infinite, flash-red 0.3s infinite !important;
-}
-
-@keyframes flash-red {
-    0% { background-color: #008080; }
-    50% { background-color: #ffcccc; }
-    100% { background-color: #008080; }
+/* 2. Create a "Flash Layer" that sits on top of the wallpaper but behind icons */
+.screen-glitch #main-desktop::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Sits above wallpaper */
+    pointer-events: none; /* Allows you to still click icons */
+    animation: flash-red-overlay 0.3s infinite !important;
 }
 
 #integrity-bar {
     transition: width 0.1s linear;
-}
-
-body:has(#bsod[style*="display: block"]) {
-    animation: none !important;
-    transform: none !important;
 }
 
 #bsod {
@@ -44,4 +44,9 @@ body:has(#bsod[style*="display: block"]) {
     font-weight: bold;
     z-index: 10000;
     padding: 100px;
+}
+
+body:has(#bsod[style*="display: block"]) {
+    animation: none !important;
+    transform: none !important;
 }

@@ -23,6 +23,12 @@ let integrity = 100;
 let integrityInterval;
 
 function startMalfunction() {
+    // 0. Close all open windows first
+    document.querySelectorAll('.window[data-taskbar="true"]').forEach(win => {
+        win.style.display = 'none';
+    });
+    updateTaskbar();
+
     // 1. Instantly show the scary window
     const gameWin = document.getElementById('game-window');
     gameWin.style.display = 'flex';
@@ -34,6 +40,9 @@ function startMalfunction() {
     // 3. Make Clippy Panic
     const clippyText = document.getElementById('clippy-text');
     clippyText.innerHTML = "<b style='color:red;'>FATAL ERROR: SYSTEM CORRUPTION DETECTED! HELP!!</b>";
+
+    // Pause Clippy's normal text rotation during game
+    window.clippyGameActive = true;
 
     // 4. Initialize Game State
     score = 0;
@@ -57,10 +66,12 @@ function startMalfunction() {
         
         // If integrity hits 0, the user failed
         if (integrity <= 0) {
+            gameActive = false;
+            window.clippyGameActive = false; // Resume Clippy text rotation
             clearInterval(integrityInterval);
             triggerBSOD(); // CRASH!
         }
-    }, 100);
+    }, 70);
 
     // 6. Start moving the target immediately
     moveTarget();
@@ -92,6 +103,7 @@ document.getElementById('target-btn').onclick = function() {
     if (score >= 5) {
         // --- SUCCESS CONDITION ---
         gameActive = false;
+        window.clippyGameActive = false; // Resume Clippy text rotation
         clearInterval(integrityInterval);
         
         // 1. Stop the screen from shaking/flashing

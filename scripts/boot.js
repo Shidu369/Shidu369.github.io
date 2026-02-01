@@ -1,23 +1,20 @@
 // --- FAST BIOS TYPEWRITER ---
 const biosLines = [
     "S-BIOS (C) 2025 Portfolio Systems Inc.",
-    "Version 1.0.0  |  Build: 12/31/1999",
-    "",
-    "CPU: Intel(R) 80486 DX2 @ 3.6GHz",
-    "GPU: Integrated",
-    "Checking NVRAM ............ OK",
-    "Detecting Memory .......... 8000MB OK",
+    "Beta Version 1.0.0  |  Build: 12/31/1999",
+    "Architecture: 100% Vanilla HTML/CSS/JS",
     "",
     
-    "USB Controllers .......... Disabled",
-    "PCI Devices .............. Scanned",
+    "CPU: Intel(R) 80486 DX2 @ 3.6GHz",
+    "GPU: Integrated",
+    "Checking RAM ............ OK",
+    "Detecting Memory .......... OK",
     "",
-    "Loading RetroOS Bootloader",
+    
+    "PCI Devices .............. Scanned",
     "Verifying System Integrity",
     "",
-    "SYSTEM READY",
-    "",
-    ">> Click to boot <<"
+    "SYSTEM READY"
 ];
 
 const biosTextElem = document.getElementById("bios-text");
@@ -42,7 +39,7 @@ function typeBiosText() {
         biosTextElem.textContent += "\n";
         charIndex = 0;
         lineIndex++;
-        setTimeout(typeBiosText, 100); // quick line delay
+        setTimeout(typeBiosText, 150); // quick line delay
     }
 }
 
@@ -93,12 +90,29 @@ function updateTaskbar() {
         .querySelectorAll('.window[data-taskbar="true"]')
         .forEach(win => {
             if (win.style.display !== 'none') {
-                const title = win.querySelector('.title-bar-text')?.textContent;
-                if (!title) return;
+                // Prefer the desktop icon label that opens this window (if present)
+                let label = null;
+
+                // Look for an .icon whose onclick references this window id
+                try {
+                    const icon = document.querySelector(`.icon[onclick*="${win.id}"]`);
+                    if (icon) {
+                        label = icon.querySelector('.icon-label')?.textContent?.trim();
+                    }
+                } catch (e) {
+                    // ignore selector errors
+                }
+
+                // Fallback to window title
+                if (!label) {
+                    label = win.querySelector('.title-bar-text')?.textContent?.trim();
+                }
+
+                if (!label) return;
 
                 const tab = document.createElement('div');
                 tab.className = 'task-tab';
-                tab.textContent = title;
+                tab.textContent = label;
 
                 tab.onclick = () => bringToFront(win);
 
@@ -175,15 +189,68 @@ document.querySelectorAll('.window').forEach(win => {
 
 // 1. Boot System Logic
 function bootSystem() {
+
     document.getElementById('boot-screen').style.display = 'none';
     document.getElementById('main-desktop').style.display = 'block';
     document.getElementById('taskbar').style.display = 'flex';
 
+    // 2. NEW: Reveal Clippy
+    const clippy = document.querySelector('.clippy-container');
+    if (clippy) {
+        clippy.style.display = 'flex';
+        setTimeout(() => {
+            clippy.style.opacity = '1'; // Fade it in
+        }, 500); // Wait half a second after the desktop appears
+    }
+
+    // 3. Audio Handling
     const audio = document.getElementById('startup-sound');
     audio.pause();
     audio.currentTime = 0;
-
     audio.play().catch(err => {
         console.log("Audio issue:", err);
     });
+}
+
+/* Folder Logic*/
+function showFolder(folderId) {
+    // Hide all contents
+    document.querySelectorAll('.folder-content').forEach(content => {
+        content.style.display = 'none';
+    });
+    document.getElementById('default-msg').style.display = 'none';
+
+    // Show selected content
+    const selected = document.getElementById('folder-' + folderId);
+    if (selected) {
+        selected.style.display = 'block';
+    }
+
+    // Highlight active folder in the tree
+    document.querySelectorAll('.folder-item').forEach(item => {
+        item.classList.remove('active-folder');
+        if (item.textContent.toLowerCase().includes(folderId)) {
+            item.classList.add('active-folder');
+        }
+    });
+}
+
+function shutDown() {
+    const shutdownScreen = document.getElementById('shutdown-screen');
+    
+    // Optional: Add a quick "flicker" before going black
+    document.body.style.filter = "brightness(2) contrast(3)";
+    
+    setTimeout(() => {
+        document.body.style.filter = "none";
+        shutdownScreen.style.display = 'flex';
+        
+        // Hide the main desktop so it's truly "gone"
+        document.getElementById('main-desktop').style.display = 'none';
+        document.getElementById('taskbar').style.display = 'none';
+        
+        // Clippy also disappears into the void
+        const clippy = document.querySelector('.clippy-container');
+        if (clippy) clippy.style.display = 'none';
+    }, 1000);
 }
