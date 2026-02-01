@@ -1,5 +1,8 @@
 // --- FAST BIOS TYPEWRITER ---
 const biosLines = [
+    "For the full groove, open it on your computer",
+    "",
+    
     "S-BIOS (C) 2025 Portfolio Systems Inc.",
     "Beta Version 1.0.0  |  Build: 12/31/1999",
     "Architecture: 100% Vanilla HTML/CSS/JS",
@@ -11,9 +14,7 @@ const biosLines = [
     "Detecting Memory .......... OK",
     "",
     
-    "PCI Devices .............. Scanned",
     "Verifying System Integrity",
-    "",
     "SYSTEM READY"
 ];
 
