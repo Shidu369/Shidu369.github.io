@@ -433,6 +433,28 @@ body {
     animation: retro-shake 0.4s ease-in-out !important;
 }
 
+/* Mobile layout fixes for Clippy */
+@media (max-width: 768px) {
+    .clippy-container {
+        right: max(8px, env(safe-area-inset-right));
+        bottom: calc(52px + env(safe-area-inset-bottom));
+        align-items: flex-end;
+        max-width: calc(100vw - 16px);
+    }
+
+    .clippy-balloon {
+        width: min(180px, calc(100vw - 24px));
+        margin-bottom: 8px;
+        padding: 8px;
+        font-size: 11px;
+        word-break: break-word;
+    }
+
+    .clippy-avatar {
+        font-size: 42px;
+    }
+}
+
 
 /* ================= GAME / EFFECTS ================= */
 
