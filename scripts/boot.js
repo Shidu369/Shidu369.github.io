@@ -1,7 +1,6 @@
 // --- FAST BIOS TYPEWRITER ---
 const biosLines = [
     "We just share the same CMS lab pc LOL",
-    ""
     "For the full groove, open it on your computer",
     "",
     
