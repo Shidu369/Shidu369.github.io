@@ -1,6 +1,6 @@
 // --- FAST BIOS TYPEWRITER ---
 const biosLines = [
-    "For the full groove, open it on your computer",
+    "We just share the same CMS lab pc LOL",
     "",
     
     "S-BIOS (C) 2025 Portfolio Systems Inc.",
